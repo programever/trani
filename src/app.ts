@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import type { Guide } from './guide.ts';
 import * as P from './plan.ts';
+import { markHaba, unmarkHaba } from './haba-mark.ts';
 import { buttonLabel, initPlayer, play } from './player.ts';
 
 const firebaseConfig = {
@@ -42,8 +43,14 @@ const state = {
 function toggle(key: P.DayKey): void {
   if (!P.canMark(key, P.today())) return;
   const ref = doc(db, COLLECTION, key);
-  const p = state.done.has(key) ? deleteDoc(ref) : setDoc(ref, { day: key });
+  const undo = state.done.has(key);
+  const p = undo ? deleteDoc(ref) : setDoc(ref, { day: key });
   p.catch((e: Error) => setStatus('Không lưu được: ' + e.message, true));
+  // A done day also marks Jogging and/or Core in Haba for that day; taking "done" away removes them (Iker, 2026-10-21).
+  for (const item of P.habaItems(P.planOf(key))) {
+    (undo ? unmarkHaba(item, key) : markHaba(item, key === P.today() ? undefined : key))
+      .catch(() => setStatus('Đã lưu, nhưng không ghi được vào Haba.', true));
+  }
 }
 
 // ---------- rendering ----------

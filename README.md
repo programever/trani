@@ -109,6 +109,16 @@ In plain words, for Trani: anyone can read, anyone can add a document whose
 name is a date and which holds only that date, anyone can delete, nobody can
 change a document after it is written.
 
+## Haba marks
+
+When a training day is marked done, Trani also marks it in Haba, for that day
+(Iker, 2026-10-21). A day with running marks Jogging. A day with core
+exercises (the ones with the voice guide) marks Core. A day with both marks
+both. A stairs-only day marks nothing. When "done" is taken away, Trani removes
+those Haba marks of that day again. Haba allows one mark per item per day, so
+nothing is counted twice. The code is `src/haba-mark.ts`, a copy of
+`haba/shared/haba-mark.ts`, and `habaItems()` in `src/plan.ts`.
+
 ## Files
 
 | File | What it is |

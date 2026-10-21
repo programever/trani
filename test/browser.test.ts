@@ -1,5 +1,6 @@
 // Test of the whole page in a headless browser, against the real Firestore.
 // It marks one day as done and not done, and leaves it as it was before.
+// Haba is faked: the test checks the Jogging and Core marks a done day sends, without writing to the real Haba.
 // Build first (npm run build), then: npm run test:browser
 // To test the live site instead: TRANI_URL=https://programever.github.io/trani/ npm run test:browser
 process.env.TZ = 'Asia/Ho_Chi_Minh';
@@ -31,6 +32,15 @@ test('the page shows the plan and saves a done day', async () => {
   const browser = await chromium.launch();
   try {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, timezoneId: 'Asia/Ho_Chi_Minh', deviceScaleFactor: 2 });
+    // Haba is faked here: a done day marks Jogging and/or Core in Haba, and the test must never touch Iker's
+    // real Haba. Only Haba's records are faked; Trani's own done day still goes to the real database.
+    const habaWrites: string[] = [];
+    await ctx.route(u => u.href.includes('/documents:runQuery') || u.href.includes('/documents/records'), async route => {
+      const req = route.request();
+      if (req.url().includes(':runQuery')) return route.fulfill({ json: [{ readTime: 'x' }] });
+      if (req.method() === 'POST') habaWrites.push(req.postDataJSON().fields.item.stringValue);
+      return route.fulfill({ json: {} });
+    });
     const page = await ctx.newPage();
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(String(e)));
@@ -61,6 +71,9 @@ test('the page shows the plan and saves a done day', async () => {
     await page.screenshot({ path: '/tmp/trani-day.png', fullPage: true });
     await page.click('#mark-btn');
     await waitFor(page, before);
+    // One of the two presses was "done": it sent the day's Haba marks once.
+    for (let i = 0; i < 50 && habaWrites.length < P.habaItems(P.planOf(day)).length; i++) await page.waitForTimeout(100);
+    assert.deepEqual(habaWrites, P.habaItems(P.planOf(day)), 'Haba marks of the day');
 
     assert.deepEqual(errors, [], 'no page errors');
   } finally {

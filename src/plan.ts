@@ -591,6 +591,17 @@ export function planOf(key: DayKey): Day {
 
 // ---------- the plan over the calendar ----------
 
+/** What a done day marks in Haba (Iker, 2026-10-21): "jog" when the day has running, "core" when it has core
+ *  exercises (the ones with a voice guide). Stairs alone mark nothing. The race day is running. */
+export function habaItems(d: Day): ('jog' | 'core')[] {
+  if (d.kind === 'race') return ['jog'];
+  const train = d.sections.flatMap(s => s.items).filter(i => i.tag === 'train');
+  const out: ('jog' | 'core')[] = [];
+  if (train.some(i => /chạy/i.test(i.text))) out.push('jog');
+  if (train.some(i => (i.steps ?? []).some(st => st.guide))) out.push('core');
+  return out;
+}
+
 export function inPlan(key: DayKey): boolean { return key >= START && key <= RACE; }
 
 /** A day can be marked done when it is in the plan, is not a rest day, and is not in the future. */

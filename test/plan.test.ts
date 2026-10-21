@@ -169,3 +169,17 @@ test('voice guide: every core exercise has one, and every line it says is in voi
   assert.match(P.planOf('2026-10-26').sections[2]!.items[0]!.steps![0]!.dose!, /^3 x 30 giây$/, 'week 1 plank: 30 seconds');
   assert.match(P.planOf('2026-11-23').sections[2]!.items[0]!.steps![0]!.dose!, /^3 x 45 giây$/, 'week 5 plank: 45 seconds');
 });
+
+test('a done day marks jogging and/or core in Haba (Iker, 2026-10-21)', () => {
+  const items = (k: string) => P.habaItems(P.planOf(k)).join(' ');
+  assert.equal(items('2026-10-21'), 'jog');      // easy run
+  assert.equal(items('2026-10-22'), 'core');     // core, then stairs
+  assert.equal(items('2026-10-29'), '');         // stairs only
+  assert.equal(items('2026-10-30'), 'jog core'); // easy run and home session B
+  assert.equal(items('2026-11-01'), 'jog');      // Núi Dinh
+  assert.equal(items(P.RACE), 'jog');
+  for (let k = P.START; k <= P.RACE; k = P.addDays(k, 1)) {
+    const d = P.planOf(k);
+    if (d.kind === 'train' && /chạy/i.test(d.title)) assert.ok(P.habaItems(d).includes('jog'), k);
+  }
+});
