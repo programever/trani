@@ -6,6 +6,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import * as P from '../src/plan.ts';
 import * as G from '../src/guide.ts';
 import * as R from '../src/generate.ts';
+import { GROUPS, VIDEOS } from '../src/videos.ts';
 import { VOICE, VOICE_TEXT } from '../src/voice.ts';
 
 /** Every date of the plan, made with nothing known about the past. */
@@ -288,4 +289,24 @@ test('a done day marks jogging and/or core in Haba (Iker, 2026-10-21)', () => {
     const d = dayOf(k);
     if (d.kind === 'train' && /chạy/i.test(d.title)) assert.ok(P.habaItems(d).includes('jog'), k);
   }
+});
+
+test('every exercise has a video, and every video is used (Iker, 2026-10-22)', () => {
+  const used = new Set<string>();
+  for (const k of allDays()) {
+    for (const x of stepsOf(dayOf(k))) {
+      if (x.dose && !/Khởi động|Thả lỏng|Nghỉ|Lên xuống|Ăn|Uống/.test(x.name) && Array.isArray(x.note)) {
+        assert.ok(x.video, `${k} ${x.name}: no video`);
+      }
+      if (x.video) { assert.ok(VIDEOS[x.video], `${k} ${x.name}: unknown video ${x.video}`); used.add(x.video); }
+    }
+  }
+  const keys = Object.keys(VIDEOS).sort();
+  assert.deepEqual([...used].sort(), keys, 'every video is used by some exercise');
+  assert.deepEqual(GROUPS.flatMap(g => [...g.keys]).sort(), keys, 'the tab shows every video once');
+  for (const v of Object.values(VIDEOS)) {
+    assert.match(v.id, /^[\w-]{11}$/, v.name);
+    assert.ok(v.name && v.by && v.note.startsWith('Xem:'), v.name);
+  }
+  assert.ok(P.RACE_TAB_FROM < P.RACE && P.daysBetween(P.RACE_TAB_FROM, P.RACE) === 6, 'the race tab from the Monday of the race week');
 });

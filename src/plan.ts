@@ -20,12 +20,15 @@ export const RACE: DayKey = '2026-12-27';
 export const DAY_START_HOUR = 4;
 /** Days after today that are planned and shown (Iker, 2026-10-22: "7 ngày tới"). */
 export const AHEAD = 7;
+/** The race page gets its own tab only in the race week (Iker, 2026-10-22). */
+export const RACE_TAB_FROM: DayKey = '2026-12-21';
 
 import type { Guide } from './guide.ts';
+import type { VideoKey } from './videos.ts';
 
 /** One exercise or one rule inside a session: what, how much, how (one line, or a list of short lines),
- *  and for core exercises the voice guide. */
-export interface Step { name: string; dose?: string; note?: string | readonly string[]; guide?: Guide }
+ *  for exercises the video (see videos.ts), and for core exercises the voice guide. */
+export interface Step { name: string; dose?: string; note?: string | readonly string[]; video?: VideoKey; guide?: Guide }
 /** eat: a meal or a snack. train: a training session. care: sleep, stretching, getting ready. */
 export type Tag = 'eat' | 'train' | 'care';
 export interface Item { time: string; tag: Tag; text: string; note?: string; steps?: readonly Step[] }
@@ -208,12 +211,12 @@ const sideSec = (key: DayKey): number => SIDE_SEC[weekIndex(key)] ?? 20;
 
 function core(sets: number, key: DayKey): Step[] {
   return [
-    { name: 'Plank thẳng', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, guide: { ex: 'plank', sets, hold: plankSec(key) } },
-    { name: 'Plank nghiêng (Side Plank)', dose: `${sets} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK,
+    { name: 'Plank thẳng', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, video: 'plank', guide: { ex: 'plank', sets, hold: plankSec(key) } },
+    { name: 'Plank nghiêng (Side Plank)', dose: `${sets} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, video: 'side',
       guide: { ex: 'side', sets, hold: sideSec(key) } },
-    { name: 'Dead Bug', dose: `${sets} x 10 mỗi bên`, note: DEAD_BUG, guide: { ex: 'deadbug', sets, reps: 20, pace: PACE_HOLD } },
-    { name: 'Bird Dog', dose: `${sets} x 10 mỗi bên`, note: BIRD_DOG, guide: { ex: 'birddog', sets, reps: 20, pace: PACE_HOLD } },
-    { name: 'Glute Bridge', dose: `${sets} x 15`, note: BRIDGE, guide: { ex: 'bridge', sets, reps: 15, pace: PACE_BRIDGE } },
+    { name: 'Dead Bug', dose: `${sets} x 10 mỗi bên`, note: DEAD_BUG, video: 'deadbug', guide: { ex: 'deadbug', sets, reps: 20, pace: PACE_HOLD } },
+    { name: 'Bird Dog', dose: `${sets} x 10 mỗi bên`, note: BIRD_DOG, video: 'birddog', guide: { ex: 'birddog', sets, reps: 20, pace: PACE_HOLD } },
+    { name: 'Glute Bridge', dose: `${sets} x 15`, note: BRIDGE, video: 'bridge', guide: { ex: 'bridge', sets, reps: 15, pace: PACE_BRIDGE } },
   ];
 }
 
@@ -307,14 +310,14 @@ function homeA(sets: number, key: DayKey): Step[] {
   const c = Math.min(2, sets);   // the short core part at the end: 2 sets at most, 1 on the trial day
   return [
     { name: 'Khởi động', dose: '5 phút', note: ['Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.'] },
-    { name: 'Bước lên bậc (Step-up)', dose: `${sets} x 12 mỗi chân`, note: STEP_UP },
-    { name: 'Bulgarian Split Squat', dose: `${sets} x 10 mỗi chân`, note: SPLIT_SQUAT },
-    { name: 'Squat với dây dài', dose: `${sets} x 15`, note: BAND_SQUAT },
-    { name: 'Bước ngang với dây ngắn', dose: `${sets} lần x 10 bước mỗi bên`, note: SIDE_WALK },
-    { name: 'Nhón gót một chân trên bậc thang', dose: `${sets} x 12 mỗi chân`, note: CALF },
-    { name: 'Core: Plank', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, guide: { ex: 'plank', sets, hold: plankSec(key) } },
-    { name: 'Core: Plank nghiêng', dose: `${c} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, guide: { ex: 'side', sets: c, hold: sideSec(key) } },
-    { name: 'Core: Dead Bug', dose: `${c} x 10 mỗi bên`, note: DEAD_BUG, guide: { ex: 'deadbug', sets: c, reps: 20, pace: PACE_HOLD } },
+    { name: 'Bước lên bậc (Step-up)', dose: `${sets} x 12 mỗi chân`, note: STEP_UP, video: 'stepup' },
+    { name: 'Bulgarian Split Squat', dose: `${sets} x 10 mỗi chân`, note: SPLIT_SQUAT, video: 'split' },
+    { name: 'Squat với dây dài', dose: `${sets} x 15`, note: BAND_SQUAT, video: 'bandsquat' },
+    { name: 'Bước ngang với dây ngắn', dose: `${sets} lần x 10 bước mỗi bên`, note: SIDE_WALK, video: 'sidewalk' },
+    { name: 'Nhón gót một chân trên bậc thang', dose: `${sets} x 12 mỗi chân`, note: CALF, video: 'calf' },
+    { name: 'Core: Plank', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, video: 'plank', guide: { ex: 'plank', sets, hold: plankSec(key) } },
+    { name: 'Core: Plank nghiêng', dose: `${c} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, video: 'side', guide: { ex: 'side', sets: c, hold: sideSec(key) } },
+    { name: 'Core: Dead Bug', dose: `${c} x 10 mỗi bên`, note: DEAD_BUG, video: 'deadbug', guide: { ex: 'deadbug', sets: c, reps: 20, pace: PACE_HOLD } },
   ];
 }
 
@@ -376,17 +379,17 @@ function homeB(sets: number, withLegs: boolean): Step[] {
   const steps: Step[] = [
     { name: 'Buộc dây dài vào chỗ cao và chắc', note: ANCHOR },
     { name: 'Khởi động', dose: '3 phút', note: ['Xoay vai ra trước 10 lần, ra sau 10 lần.', 'Xoay cánh tay thành vòng tròn 10 lần.', 'Làm 1 hiệp hít đất nhẹ, có thể chống gối.'] },
-    { name: 'Kéo dây thẳng tay', dose: `${sets} x 15 - 20`, note: STRAIGHT_ARM },
-    { name: 'Đẩy dây tay sau', dose: `${sets} x 15 - 20`, note: PUSHDOWN },
-    { name: 'Kéo dây về bụng', dose: `${sets} x 15`, note: ROW },
-    { name: 'Chống gậy với dây', dose: `${sets} lần x 2 phút`, note: POLING },
-    { name: 'Hít đất', dose: `${sets} x 10 - 15`, note: PUSHUP },
-    { name: 'Chống tay sau ghế (Tricep Dips)', dose: `${sets} x 10 - 15`, note: DIPS },
+    { name: 'Kéo dây thẳng tay', dose: `${sets} x 15 - 20`, note: STRAIGHT_ARM, video: 'straightarm' },
+    { name: 'Đẩy dây tay sau', dose: `${sets} x 15 - 20`, note: PUSHDOWN, video: 'pushdown' },
+    { name: 'Kéo dây về bụng', dose: `${sets} x 15`, note: ROW, video: 'row' },
+    { name: 'Chống gậy với dây', dose: `${sets} lần x 2 phút`, note: POLING, video: 'poling' },
+    { name: 'Hít đất', dose: `${sets} x 10 - 15`, note: PUSHUP, video: 'pushup' },
+    { name: 'Chống tay sau ghế (Tricep Dips)', dose: `${sets} x 10 - 15`, note: DIPS, video: 'dips' },
   ];
-  if (withLegs) steps.push({ name: 'Nhón gót gối gập', dose: `${sets} x 15 mỗi chân`, note: BENT_CALF });
+  if (withLegs) steps.push({ name: 'Nhón gót gối gập', dose: `${sets} x 15 mỗi chân`, note: BENT_CALF, video: 'bentcalf' });
   steps.push(
-    { name: 'Core: Bird Dog', dose: `${sets} x 10 mỗi bên`, note: BIRD_DOG, guide: { ex: 'birddog', sets, reps: 20, pace: PACE_HOLD } },
-    { name: 'Core: Glute Bridge với dây ngắn', dose: `${sets} x 15`, note: BAND_BRIDGE, guide: { ex: 'bandbridge', sets, reps: 15, pace: PACE_BRIDGE } },
+    { name: 'Core: Bird Dog', dose: `${sets} x 10 mỗi bên`, note: BIRD_DOG, video: 'birddog', guide: { ex: 'birddog', sets, reps: 20, pace: PACE_HOLD } },
+    { name: 'Core: Glute Bridge với dây ngắn', dose: `${sets} x 15`, note: BAND_BRIDGE, video: 'bandbridge', guide: { ex: 'bandbridge', sets, reps: 15, pace: PACE_BRIDGE } },
   );
   return steps;
 }

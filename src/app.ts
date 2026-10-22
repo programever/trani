@@ -1,5 +1,6 @@
-// Trani page. Three tabs: Hôm nay (the whole day, the done button and how it felt), Lịch (every day of the plan on
-// a calendar: the history and the next 7 planned days, Iker 2026-10-22) and Ngày đua (the race page). The days come from days/*.json, put into the page at build time.
+// Trani page. Tabs: Hôm nay (the whole day, the done button and how it felt), Lịch (every day of the plan on a
+// calendar: the history and the next 7 planned days), Bài tập (a video per exercise) and, only in the race week,
+// Ngày đua (the race page) (Iker, 2026-10-22). The days come from days/*.json, put into the page at build time.
 // A finished session is one small document in Firestore (Google), in the list "trani". The document name is the
 // day, like "2026-10-21", and it holds {day: "2026-10-21"}; after a feel button also {feel: "cramp"}.
 // No document means not done. Firestore keeps a copy on the phone, so a press made offline is sent later.
@@ -16,6 +17,7 @@ import * as P from './plan.ts';
 import { RECIPES } from './days.generated.ts';
 import { markHaba, unmarkHaba } from './haba-mark.ts';
 import { buttonLabel, initPlayer, play } from './player.ts';
+import { GROUPS, VIDEOS, type VideoKey } from './videos.ts';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDtkJvnZLPIkIAJzj9w3F486bX2E8T5kuU',
@@ -180,9 +182,10 @@ function item(it: P.Item, id: string): string {
         btn = `<button class="play" type="button" data-play="${esc(sid)}" aria-label="Tập cùng giọng đọc: ${esc(name)}">` +
           `${buttonLabel(sid, x.guide.sets)}</button>`;
       }
+      const vlink = x.video ? `<li class="vlink"><a href="#video-${x.video}">▶ Xem video cách làm</a></li>` : '';
       const body = lines.length
         ? `<details data-id="${esc(sid)}"${opened.has(sid) ? ' open' : ''}><summary class="row">${head}</summary>` +
-          `<ul class="how">${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul></details>`
+          `<ul class="how">${lines.map(l => `<li>${esc(l)}</li>`).join('')}${vlink}</ul></details>`
         : `<div class="row plain">${head}</div>`;
       html += `<li${btn ? ' class="g"' : ''}>${body}${btn}</li>`;
     });
@@ -230,6 +233,29 @@ function renderCal(todayKey: P.DayKey, selected: P.DayKey): void {
   $('grid').innerHTML = html;
 }
 
+/** The Bài tập tab: one card per exercise with the picture of the video. The video itself (YouTube) loads only
+ *  when ▶ is pressed, so the page stays light. */
+function renderVideos(): void {
+  let html = '';
+  for (const g of GROUPS) {
+    html += `<h3>${esc(g.name)}</h3>`;
+    for (const k of g.keys) {
+      const v = VIDEOS[k];
+      html += `<div class="vcard" id="v-${k}"><p class="vname">${esc(v.name)}</p>` +
+        `<div class="video" data-id="${esc(v.id)}" data-name="${esc(v.name)}"><img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy">` +
+        `<button class="vplay" type="button" aria-label="Xem video: ${esc(v.name)}">▶</button></div>` +
+        `<p class="note">${esc(v.note)}</p><p class="vby">Video: ${esc(v.by)}</p></div>`;
+    }
+  }
+  $('video-list').innerHTML = html;
+}
+
+function playVideo(box: HTMLElement): void {
+  const id = box.dataset['id'] ?? '';
+  box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${esc(id)}?autoplay=1&rel=0" title="${esc(box.dataset['name'] ?? '')}" ` +
+    'allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+}
+
 function renderRace(): void {
   $('race-body').innerHTML = dayHtml(plan.dayOf(P.RACE) ?? P.raceDay(), P.RACE);
 }
@@ -239,14 +265,20 @@ function renderRace(): void {
 // and hide the top of the page under the sticky header.
 function showTab(): void {
   const h = location.hash;
-  const name = h === '#cal' ? 'cal' : h === '#race' ? 'race' : 'today';
-  for (const t of ['today', 'cal', 'race']) {
+  const raceWeek = P.today() >= P.RACE_TAB_FROM;
+  $('tab-race').hidden = !raceWeek;
+  const video = /^#video(-([a-z]+))?$/.exec(h);
+  const name = h === '#cal' ? 'cal' : video ? 'video' : h === '#race' && raceWeek ? 'race' : 'today';
+  for (const t of ['today', 'cal', 'video', 'race']) {
     $('panel-' + t).classList.toggle('active', t === name);
     $('tab-' + t).classList.toggle('active', t === name);
     $('tab-' + t).setAttribute('aria-selected', t === name ? 'true' : 'false');
   }
   render();
   window.scrollTo(0, 0);
+  // #video-deadbug (the link in a how-to): scroll to that exercise
+  const key = video?.[2];
+  if (key && key in VIDEOS) document.getElementById('v-' + (key as VideoKey))?.scrollIntoView({ block: 'start' });
 }
 
 // ---------- live data ----------
@@ -273,6 +305,11 @@ function listen(): void {
 
 // ---------- wiring ----------
 function init(): void {
+  renderVideos();
+  $('video-list').addEventListener('click', e => {
+    const box = (e.target as Element).closest<HTMLElement>('.video');
+    if (box && !box.querySelector('iframe')) playVideo(box);
+  });
   showTab();
   window.addEventListener('hashchange', showTab);
   // "toggle" does not bubble, so listen while it goes down to the details element.

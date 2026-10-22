@@ -19,7 +19,8 @@
   <nav class="tabs" role="tablist">
     <a href="#today" id="tab-today" role="tab">Hôm nay</a>
     <a href="#cal" id="tab-cal" role="tab">Lịch</a>
-    <a href="#race" id="tab-race" role="tab">Ngày đua</a>
+    <a href="#video" id="tab-video" role="tab">Bài tập</a>
+    <a href="#race" id="tab-race" role="tab" hidden>Ngày đua</a>
   </nav>
 </header>
 
@@ -44,6 +45,11 @@
       <span>🙂 dễ · 👌 ổn · 😓 nặng · 🦵 chuột rút</span>
     </div>
     <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="panel-video" class="panel" role="tabpanel">
+    <p class="muted">Video cách làm từng bài. Video tiếng Anh, chỉ cần xem động tác. Bấm ▶ để xem ngay trong trang.</p>
+    <div id="video-list"></div>
   </section>
 
   <section id="panel-race" class="panel" role="tabpanel">

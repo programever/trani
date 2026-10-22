@@ -37,8 +37,17 @@ Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
   already (the next seven days); a faint box has none yet. Press a box to see
   that day. A past day keeps the file it was trained with, so the history is
   true.
+- **Bài tập (Exercises).** One YouTube video per exercise, in three groups
+  (core, legs, arms), with one line that says what to look at. The video loads
+  only when ▶ is pressed. Every exercise in a day's how-to has a link "▶ Xem
+  video cách làm" to its card. Iker asked for this on 2026-10-22, because the
+  how-to text is not always enough to remember a move. The list is in
+  `src/videos.ts`; the videos are in English.
 - **Ngày đua (Race day).** The race page: start time, time limit, target pace,
-  the gear the organizer asks for, what to do before, during and after.
+  the gear the organizer asks for, what to do before, during and after. The
+  tab appears only in the race week, from Monday 21 December (Iker,
+  2026-10-22). Before that, the race day is also readable on the calendar
+  once its file exists.
 
 ## The plan, seven days at a time
 
@@ -176,7 +185,8 @@ nothing is counted twice. The code is `src/haba-mark.ts`, a copy of
 |---|---|
 | `days/*.json` | One recipe per day: the plan itself. Written by `tools/next-day.ts`, or by hand (then `"locked": true`). |
 | `docs/iker.md`, `docs/race.md` | What the plan knows about Iker and about the race. |
-| `src/index.html` | The page. Three tabs. |
+| `src/index.html` | The page. The tabs. |
+| `src/videos.ts` | One YouTube video per exercise, with what to look at. |
 | `src/style.css` | The look. Light and dark mode. |
 | `src/plan.ts` | The recipe types, every session and meal, the day maths, and `expand()` from a recipe to a full day. No browser things, so it can be tested with node. |
 | `src/generate.ts` | The plan rules: the recipe of any date, the lighter day after a cramp, what the daily job keeps. |

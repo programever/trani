@@ -53,9 +53,19 @@ test('the page shows the plan and saves a done day', async () => {
     assert.equal(await page.locator('#grid .wk:not(.head) > .cell').count(), 70, '10 weeks of 7 days on the calendar');
     await page.screenshot({ path: '/tmp/trani-cal.png', fullPage: true });
 
+    await page.goto(url + '#video');
+    await page.waitForSelector('#video-list .vcard', { timeout: 20000 });
+    assert.equal(await page.locator('#video-list .vcard').count(), 18, 'one card per exercise');
+    await page.click('#v-deadbug .vplay');
+    assert.equal(await page.locator('#v-deadbug iframe').count(), 1, 'the video loads when pressed');
+    await page.screenshot({ path: '/tmp/trani-video.png', fullPage: true });
+
+    // The race tab is only there in the race week; the race page is still there behind its address, except before.
+    const raceWeek = today >= P.RACE_TAB_FROM;
+    assert.equal(await page.locator('#tab-race').isHidden(), !raceWeek, 'the race tab only in the race week');
     await page.goto(url + '#race');
-    await page.waitForSelector('#race-body h2', { timeout: 20000 });
-    assert.match(await page.locator('#race-body').innerText(), /02:00[\s\S]*16 tiếng/, 'the race page');
+    await page.waitForSelector('#panel-today.active, #panel-race.active', { timeout: 20000 });
+    assert.equal(await page.locator('#panel-race.active').count(), raceWeek ? 1 : 0);
 
     // The test day: the latest day up to today that can be marked and is not done yet.
     let day = today, before = true;
