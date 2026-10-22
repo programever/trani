@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-27",
+  "week": "Tuần 1",
+  "type": "weekday",
+  "am": {
+    "run": 30
+  },
+  "pm": {
+    "kind": "intervals",
+    "reps": 6,
+    "work": 3
+  }
+}

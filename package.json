@@ -2,14 +2,16 @@
   "name": "trani",
   "version": "1.0.0",
   "private": true,
-  "description": "Trani: training plan for the 65 km Núi Dinh race, with a done button per day. Records live in Firestore.",
+  "description": "Trani: training plan for the 65 km Núi Dinh race, one day at a time (today and the next 7 days), with a done button and feel buttons per day. Records live in Firestore.",
   "type": "module",
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "node tools/gen-days.mjs && tsc --noEmit",
     "test": "npm run check && node --test test/plan.test.ts",
-    "build": "node build.mjs",
+    "build": "node tools/gen-days.mjs && node build.mjs",
     "test:browser": "node --test test/browser.test.ts",
-    "serve": "python3 -m http.server 8766 --bind 127.0.0.1 --directory dist"
+    "serve": "python3 -m http.server 8766 --bind 127.0.0.1 --directory dist",
+    "days": "node tools/next-day.ts",
+    "daily": "tools/daily.sh"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-28",
+  "week": "Tuần 1",
+  "type": "weekday",
+  "am": null,
+  "pm": {
+    "kind": "homeA",
+    "sets": 3,
+    "note": "Tuần đầu: tập nhẹ, chú ý làm đúng động tác."
+  }
+}

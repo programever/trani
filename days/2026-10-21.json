@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-21",
+  "week": "Tuần bắt đầu",
+  "type": "weekday",
+  "title": "Chạy dễ 50 phút",
+  "am": null,
+  "pm": {
+    "kind": "run",
+    "min": 50
+  }
+}

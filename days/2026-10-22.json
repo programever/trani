@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-22",
+  "week": "Tuần bắt đầu",
+  "type": "weekday",
+  "title": "Thử bài core, leo cầu thang đều 30 phút",
+  "am": {
+    "core": 2,
+    "text": "Thử bài core ở nhà, khoảng 10 phút.",
+    "note": "Lần đầu tập core: mỗi bài 2 hiệp, làm chậm và đúng."
+  },
+  "pm": {
+    "kind": "steady",
+    "min": 30,
+    "pack": 0,
+    "easy": true
+  }
+}

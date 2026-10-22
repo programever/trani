@@ -1,7 +1,8 @@
-// Trani page. Two tabs: Today (the whole day: what to eat and do, and the done button) and Plan (all the weeks).
-// A finished session is one small document in Firestore (Google), in the list "trani".
-// The document name is the day, like "2026-10-21", and it holds {day: "2026-10-21"}. No document means not done.
-// Firestore keeps a copy on the phone, so a press made offline is sent later.
+// Trani page. Three tabs: Hôm nay (the whole day, the done button and how it felt), 7 ngày (today and the next
+// 7 days) and Ngày đua (the race page). The days come from days/*.json, put into the page at build time.
+// A finished session is one small document in Firestore (Google), in the list "trani". The document name is the
+// day, like "2026-10-21", and it holds {day: "2026-10-21"}; after a feel button also {feel: "cramp"}.
+// No document means not done. Firestore keeps a copy on the phone, so a press made offline is sent later.
 // The config block is the same public one as Haba (same Google project); the Firestore rules protect the data.
 
 import { initializeApp } from 'firebase/app';
@@ -12,6 +13,7 @@ import {
 } from 'firebase/firestore';
 import type { Guide } from './guide.ts';
 import * as P from './plan.ts';
+import { RECIPES } from './days.generated.ts';
 import { markHaba, unmarkHaba } from './haba-mark.ts';
 import { buttonLabel, initPlayer, play } from './player.ts';
 
@@ -24,6 +26,7 @@ const firebaseConfig = {
   appId: '1:632547558396:web:5bdf411d492236c5686879',
 };
 const COLLECTION = 'trani';
+const plan = P.makePlan(RECIPES);
 
 const app = initializeApp(firebaseConfig);
 let db: Firestore;
@@ -35,22 +38,32 @@ try {
 
 const state = {
   done: new Set<P.DayKey>(),
+  feel: new Map<P.DayKey, P.Feel>(),
   pending: new Set<P.DayKey>(),
   loaded: false,
 };
 
 // ---------- actions ----------
 function toggle(key: P.DayKey): void {
-  if (!P.canMark(key, P.today())) return;
+  const day = plan.dayOf(key);
+  if (!day || !plan.canMark(key, P.today())) return;
   const ref = doc(db, COLLECTION, key);
   const undo = state.done.has(key);
   const p = undo ? deleteDoc(ref) : setDoc(ref, { day: key });
   p.catch((e: Error) => setStatus('Không lưu được: ' + e.message, true));
   // A done day also marks Jogging and/or Core in Haba for that day; taking "done" away removes them (Iker, 2026-10-21).
-  for (const item of P.habaItems(P.planOf(key))) {
+  for (const item of P.habaItems(day)) {
     (undo ? unmarkHaba(item, key) : markHaba(item, key === P.today() ? undefined : key))
       .catch(() => setStatus('Đã lưu, nhưng không ghi được vào Haba.', true));
   }
+}
+
+/** How the day felt (Iker, 2026-10-22): written into the same document as "done". The same button again clears it. */
+function setFeel(key: P.DayKey, feel: P.Feel): void {
+  if (!state.done.has(key)) return;
+  const next = state.feel.get(key) === feel ? null : feel;
+  setDoc(doc(db, COLLECTION, key), next ? { day: key, feel: next } : { day: key })
+    .catch((e: Error) => setStatus('Không lưu được: ' + e.message, true));
 }
 
 // ---------- rendering ----------
@@ -78,8 +91,9 @@ function shortDay(key: P.DayKey): string {
   const d = dateOf(key);
   return d.getDate() + '/' + (d.getMonth() + 1);
 }
+const WD = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'];
 
-/** The day shown on the first tab: today, or the day picked on the plan tab (#day-2026-11-03). */
+/** The day shown on the first tab: today, or the day picked on the 7-day tab (#day-2026-11-03). */
 function selectedDay(): P.DayKey {
   const m = /^#day-(\d{4}-\d{2}-\d{2})$/.exec(location.hash);
   return m?.[1] ?? P.today();
@@ -89,11 +103,12 @@ function render(): void {
   const todayKey = P.today();
   const key = selectedDay();
   renderDay(key, todayKey);
-  renderPlan(todayKey, key);
+  renderWeek(todayKey, key);
+  renderRace();
 }
 
 function renderDay(key: P.DayKey, todayKey: P.DayKey): void {
-  const day = P.planOf(key);
+  const day = plan.dayOf(key);
   $('back').hidden = key === todayKey;
   $('date-line').textContent = (key === todayKey ? 'Hôm nay, ' : '') + longDay(key);
 
@@ -101,31 +116,40 @@ function renderDay(key: P.DayKey, todayKey: P.DayKey): void {
   $('countdown').textContent = left > 0 ? `Còn ${left} ngày đến ngày đua (Chủ Nhật 27/12).`
     : left === 0 ? 'Hôm nay là ngày đua. Chúc may mắn!' : 'Giải đã xong.';
 
-  const st = P.stateOf(key, todayKey, state.done);
-  const race = day.kind === 'race';
+  const st = plan.stateOf(key, todayKey, state.done);
+  const race = day?.kind === 'race';
   let mark = '';
-  if (st === 'out') mark = '<p class="muted">Ngày này không có trong giáo án.</p>';
-  else if (st === 'rest') mark = '<p class="note-box">Ngày nghỉ chạy. Không cần đánh dấu.</p>';
+  if (st === 'out') {
+    mark = `<p class="note-box">${key > todayKey ? 'Ngày này chưa có kế hoạch. Mỗi sáng kế hoạch được thêm một ngày.' : 'Ngày này không có trong kế hoạch.'}</p>`;
+  } else if (st === 'rest') mark = '<p class="note-box">Ngày nghỉ chạy. Không cần đánh dấu.</p>';
   else if (st === 'future') mark = '<p class="note-box">Chưa tới ngày này.</p>';
   else if (!state.loaded) mark = '<p class="muted">Đang tải…</p>';
   else if (st === 'done') {
     const wait = state.pending.has(key) ? ' <span class="p">(đang lưu…)</span>' : '';
+    const feel = state.feel.get(key);
     mark = `<div class="done-box">✓ ${race ? 'Đã hoàn thành giải' : 'Đã tập xong'}${wait}</div>` +
-      '<button class="undo" id="mark-btn" type="button">Bỏ đánh dấu</button>';
+      '<div class="feel" id="feel"><p class="feel-q">Buổi tập thấy sao? Bấm một nút. Chuột rút thì ngày mai sẽ nhẹ hơn.</p>' +
+      P.FEELS.map(f => `<button type="button" class="feel-btn${feel === f ? ' on' : ''}" data-feel="${f}">${P.FEEL_LABEL[f]}</button>`).join('') +
+      '</div><button class="undo" id="mark-btn" type="button">Bỏ đánh dấu</button>';
   } else {
     mark = `<button class="mark" id="mark-btn" type="button">${race ? 'Đánh dấu đã hoàn thành giải' : 'Đánh dấu đã tập xong'}</button>`;
   }
   $('mark').innerHTML = mark;
 
   guides.clear();
-  if (!P.inPlan(key)) { $('session').innerHTML = ''; return; }
+  $('session').innerHTML = day ? dayHtml(day, key) : '';
+}
+
+/** The label, the title, the reason of the day (when there is one) and the three parts with their lines. */
+function dayHtml(day: P.Day, key: P.DayKey): string {
   let html = `<p class="week">${esc(day.week)}</p><h2>${esc(day.title)}</h2>`;
+  if (day.why) html += `<p class="why">${esc(day.why)}</p>`;
   day.sections.forEach((sec, si) => {
     html += `<h3>${esc(sec.name)}</h3><ol class="items">`;
     sec.items.forEach((it, ii) => { html += item(it, `${key}/${si}/${ii}`); });
     html += '</ol>';
   });
-  $('session').innerHTML = html;
+  return html;
 }
 
 const TAG_LABEL: Record<P.Tag, string> = { eat: 'Ăn', train: 'Tập', care: 'Sinh hoạt' };
@@ -168,31 +192,37 @@ function item(it: P.Item, id: string): string {
 }
 
 const STATE_LABEL: Record<P.State, string> = {
-  out: '', rest: 'nghỉ', done: 'đã tập', missed: 'chưa tập', open: 'hôm nay, chưa tập', future: 'sắp tới',
+  out: 'chưa có kế hoạch', rest: 'nghỉ chạy', done: 'đã tập', missed: 'chưa tập', open: 'hôm nay, chưa tập', future: 'sắp tới',
 };
 
-function renderPlan(todayKey: P.DayKey, selected: P.DayKey): void {
-  const sum = P.summary(todayKey, state.done);
+/** One row of the 7-day tab: the day, the title and the state (with how it felt). */
+function row(k: P.DayKey, todayKey: P.DayKey, selected: P.DayKey): string {
+  const st = plan.stateOf(k, todayKey, state.done);
+  const d = plan.dayOf(k);
+  const feel = state.feel.get(k);
+  const label = st === 'done' && feel ? `đã tập · ${P.FEEL_LABEL[feel].toLowerCase()}` : STATE_LABEL[st];
+  const cls = `dayrow s-${st}${k === todayKey ? ' today' : ''}${k === selected && location.hash.startsWith('#day-') ? ' sel' : ''}`;
+  const inner = `<span class="d">${WD[P.weekday(k)]} ${shortDay(k)}${k === P.RACE ? ' 🏁' : ''}</span>` +
+    `<span class="t">${esc(d ? d.title : 'Chưa có kế hoạch')}</span><span class="st">${esc(label)}</span>`;
+  return d ? `<a class="${cls}" href="#day-${k}" aria-label="${esc(longDay(k))}: ${esc(label)}">${inner}</a>` : `<div class="${cls}">${inner}</div>`;
+}
+
+function renderWeek(todayKey: P.DayKey, selected: P.DayKey): void {
+  const sum = plan.summary(todayKey, state.done);
   $('stats').innerHTML = state.loaded
     ? `<div><b>${sum.done}</b><span>buổi đã tập</span></div><div><b>${sum.missed}</b><span>buổi chưa tập</span></div>` +
       `<div><b>${Math.max(0, sum.daysToRace)}</b><span>ngày đến giải</span></div>`
     : '<p class="muted">Đang tải…</p>';
+  let html = P.windowKeys(todayKey).map(k => row(k, todayKey, selected)).join('');
+  const past = Array.from({ length: 7 }, (_, i) => P.addDays(todayKey, i - 7)).filter(k => plan.dayOf(k));
+  if (past.length) {
+    html += `<details class="past"><summary>${past.length} ngày đã qua</summary>` + past.map(k => row(k, todayKey, selected)).join('') + '</details>';
+  }
+  $('week').innerHTML = html;
+}
 
-  let html = '<div class="wk head"><span></span>' +
-    ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map(d => `<span class="dh">${d}</span>`).join('') + '</div>';
-  P.weeks().forEach((w, i) => {
-    html += `<div class="wk"><span class="wl">${esc(P.WEEK_LABELS[i] ?? '')}</span>`;
-    for (const k of w) {
-      const st = P.stateOf(k, todayKey, state.done);
-      const race = k === P.RACE;
-      const cls = `cell s-${st}${k === todayKey ? ' today' : ''}${k === selected && location.hash.startsWith('#day-') ? ' sel' : ''}`;
-      const text = `${shortDay(k)}${race ? '<i class="flag">🏁</i>' : ''}`;
-      if (st === 'out') html += `<span class="${cls}">${text}</span>`;
-      else html += `<a class="${cls}" href="#day-${k}" aria-label="${esc(longDay(k))}: ${race ? 'ngày đua, ' : ''}${STATE_LABEL[st]}">${text}</a>`;
-    }
-    html += '</div>';
-  });
-  $('grid').innerHTML = html;
+function renderRace(): void {
+  $('race-body').innerHTML = dayHtml(plan.dayOf(P.RACE) ?? P.raceDay(), P.RACE);
 }
 
 // ---------- tabs ----------
@@ -200,8 +230,8 @@ function renderPlan(todayKey: P.DayKey, selected: P.DayKey): void {
 // and hide the top of the page under the sticky header.
 function showTab(): void {
   const h = location.hash;
-  const name = h === '#plan' ? 'plan' : 'today';
-  for (const t of ['today', 'plan']) {
+  const name = h === '#week' ? 'week' : h === '#race' ? 'race' : 'today';
+  for (const t of ['today', 'week', 'race']) {
     $('panel-' + t).classList.toggle('active', t === name);
     $('tab-' + t).classList.toggle('active', t === name);
     $('tab-' + t).setAttribute('aria-selected', t === name ? 'true' : 'false');
@@ -213,6 +243,11 @@ function showTab(): void {
 // ---------- live data ----------
 function onData(snap: QuerySnapshot<DocumentData>): void {
   state.done = new Set(snap.docs.map(d => d.id).filter(P.isDayKey));
+  state.feel = new Map();
+  for (const d of snap.docs) {
+    const f: unknown = d.get('feel');
+    if (P.isDayKey(d.id) && P.isFeel(f)) state.feel.set(d.id, f);
+  }
   state.pending = new Set(snap.docs.filter(d => d.metadata.hasPendingWrites).map(d => d.id));
   state.loaded = true;
   if (snap.metadata.hasPendingWrites && !navigator.onLine) setStatus('Mất mạng. Đã lưu trên điện thoại, sẽ gửi sau.', true);
@@ -244,7 +279,12 @@ function init(): void {
   });
   initPlayer(render);
   $('mark').addEventListener('click', e => {
-    if ((e.target as Element).closest('#mark-btn')) toggle(selectedDay());
+    const t = e.target as Element;
+    const fb = t.closest<HTMLElement>('[data-feel]');
+    if (fb) {
+      const f = fb.dataset['feel'];
+      if (P.isFeel(f)) setFeel(selectedDay(), f);
+    } else if (t.closest('#mark-btn')) toggle(selectedDay());
   });
   // The page may stay open on the phone for days: draw again when it comes back, so "today" is right.
   document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });

@@ -18,7 +18,8 @@
   <h1>Trani <span class="race-line">65km Núi Dinh · 27/12</span></h1>
   <nav class="tabs" role="tablist">
     <a href="#today" id="tab-today" role="tab">Hôm nay</a>
-    <a href="#plan" id="tab-plan" role="tab">Lịch</a>
+    <a href="#week" id="tab-week" role="tab">7 ngày</a>
+    <a href="#race" id="tab-race" role="tab">Ngày đua</a>
   </nav>
 </header>
 
@@ -32,18 +33,16 @@
     <article class="session" id="session"></article>
   </section>
 
-  <section id="panel-plan" class="panel" role="tabpanel">
+  <section id="panel-week" class="panel" role="tabpanel">
     <div class="stats" id="stats"></div>
-    <div class="legend">
-      <span><i class="cell s-done"></i>Đã tập</span>
-      <span><i class="cell s-missed"></i>Chưa tập</span>
-      <span><i class="cell s-rest"></i>Nghỉ chạy</span>
-      <span><i class="cell s-future"></i>Sắp tới</span>
-    </div>
-    <p class="muted">Bấm vào một ngày để xem bài tập của ngày đó.</p>
-    <div class="grid" id="grid"></div>
+    <p class="muted">Hôm nay và 7 ngày tới. Mỗi sáng kế hoạch được thêm một ngày. Bấm vào một ngày để xem bài tập.</p>
+    <div class="list" id="week"></div>
   </section>
 
+  <section id="panel-race" class="panel" role="tabpanel">
+    <p class="date-line">Chủ nhật, 27/12/2026 · Dinh Harvest Final 2026</p>
+    <article class="session" id="race-body"></article>
+  </section>
 </main>
 <div class="player" id="player" hidden>
   <div class="player-in">

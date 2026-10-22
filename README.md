@@ -1,41 +1,84 @@
 # Trani
 
 A small website for one training plan: the 65 km race at Núi Dinh on Sunday
-27 December 2026 (4000 m of climbing). Alpha built it on 2026-10-21 for Iker.
+27 December 2026 (Dinh Harvest Final 2026). Alpha built it on 2026-10-21 for
+Iker, and rebuilt it on 2026-10-22 as a plan of seven days at a time.
 
 The page is on GitHub Pages: https://programever.github.io/trani/
 
-It has two tabs. The text on the page is in Vietnamese, like the plan.
+The text on the page is in Vietnamese, like the plan. What the plan knows about
+Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
+
+## The page
 
 - **Hôm nay (Today).** The whole day, in three parts: Sáng, Trưa, Tối
   (morning, noon, evening). Each part is a list with a time: what to eat, what
   to train (with every exercise, how long or how many times, and how), and
   when to stretch and sleep. Iker follows the list as it is. Under the date is
-  one big button: "done". Press it again to take the mark away.
+  one big button: "done". Press it again to take the mark away. Under "done"
+  are four buttons for how the session felt: Dễ, Ổn, Nặng, Chuột rút (easy,
+  ok, hard, cramp). Press one; press the same one again to clear it.
+  When a day is lighter because of a cramp, a blue line under the title says so.
   Tap an exercise to open or close its how-to.
 - **Voice guide for core.** Every core exercise has a ▶ button. One tap plays
   one set: a bar at the bottom shows a big timer, and Rebo's voice (Hoài My)
   names the set, counts "3, 2, 1, bắt đầu", then counts the seconds (plank) or
-  every repetition. There is no rest timer: Iker taps ▶ again when ready
-  (Iker, 2026-10-21). The screen stays on while a set runs.
-- **Lịch (Plan).** All the weeks, from Wednesday 21 October to the race. One
-  box per day. Green means done. Grey with a dashed line means the day is past
-  and not done. Blue means a day without running (Monday). Press a box to see
-  that day. Past days can still be marked.
+  every repetition. A number means "start the next one": the next number comes
+  6 seconds later for dead bug and bird dog, 5 seconds for the bridges, so
+  there is time to move out, hold 2 seconds and come back (Iker, 2026-10-22).
+  There is no rest timer: Iker taps ▶ again when ready. The screen stays on
+  while a set runs.
+- **7 ngày (7 days).** Today and the next seven days, one row each: the day,
+  the title and the state (done and how it felt, not done, today, rest, coming).
+  Press a row to see that day. The past seven days are under a fold.
+- **Ngày đua (Race day).** The race page: start time, time limit, target pace,
+  the gear the organizer asks for, what to do before, during and after.
 
-## The plan
+## The plan, seven days at a time
 
-All of it is in `src/plan.ts`. Iker and Alpha wrote it on 2026-10-21.
+Iker asked on 2026-10-22 not to plan far ahead: only the next seven days, and
+a new day every day. So:
 
-- Iker trains at home only: one floor of stairs (20 steps) and two resistance
+- Every day is one small file in `days/`, like `days/2026-10-30.json`. It is a
+  *recipe*: the kind of day and the doses (for example: Tuesday, intervals,
+  6 x 3 minutes, easy run of 30 minutes in the morning). `src/plan.ts` turns a
+  recipe into the full day with meals, how-tos and the voice guide.
+- `src/generate.ts` holds the rules: which kind of day each date is (see the
+  table below), the weeks that build up and the lighter weeks, and how a day
+  changes after how the last days felt.
+- Every morning at 05:00 Vietnam time, `tools/daily.sh` runs on Alpha's box
+  (user timer `trani.timer`, retry at 06:30). It reads the done days and the
+  feel buttons from Firestore, writes the files of today and the next seven
+  days, runs the tests, builds, commits and pushes. GitHub Actions then puts the
+  new page online in about a minute. By hand: `npm run days` (or
+  `npm run days -- --dry-run` to only see what would change).
+- A day in the past is never rewritten. Today is not rewritten once it is
+  marked done. A file with `"locked": true` is never rewritten: that is how
+  Alpha and Iker change a day by hand (edit the file, lock it, commit, push).
+  Every other day in the window is written again each morning, so a cramp
+  yesterday makes today lighter.
+- **A cramp makes the next training day lighter.** When the last training day
+  was marked "Chuột rút", or the last two were marked "Nặng", the next training
+  day gets fewer sets (one less), shorter intervals (two reps less), shorter
+  runs (about a quarter less), and a line under the title that says why. A
+  Núi Dinh day keeps its hours but asks to climb slowly and take salt. Cramps
+  came about five hours into both slow races (Iker, 2026-10-22), so the plan
+  also says: salt and food every hour, slow first half.
+
+Iker's rules for the plan:
+
+- Training at home only: one floor of stairs (20 steps) and two resistance
   bands, one short and one long. No gym, no treadmill (Iker, 2026-10-21).
-- Iker's free times: weekdays 07:30-08:15 and 17:45-18:45, Saturday
-  17:00-19:00, and Sunday for the long run or Núi Dinh.
+- Free times: weekdays 07:30-08:15 and 17:45-18:45, Saturday 17:00-19:00, and
+  Sunday for the long run or Núi Dinh.
+- Núi Dinh only by day: Sunday 1 Nov, 15 Nov and 6 Dec (the race rehearsal).
+  No night training on the mountain (Iker, 2026-10-22). Two long runs in the
+  park start at 03:00 with the headlamp (29 Nov, 13 Dec), like the race start.
 - Weeks: a start week, weeks 1-3 build up, week 4 is lighter, weeks 5-7 build
   up, week 8 and the race week are lighter.
-- Núi Dinh on Sunday 1 Nov, 15 Nov and 6 Dec (the race rehearsal).
 - Meals only say how big they are (light, normal, heavy) and what they are rich
   in (carbs, protein). No dishes: Iker chooses the food (2026-10-21).
+- Core at home in the morning, never in the park, never after dinner.
 
 | Day | Session |
 |---|---|
@@ -45,15 +88,16 @@ All of it is in `src/plan.ts`. Iker and Alpha wrote it on 2026-10-21.
 | Thursday | Evening: steady stairs, later with a backpack |
 | Friday | Morning easy run. Evening: home session B, arms for the poles, calves, core |
 | Saturday | Evening: 1 to 2 hours on bridges and slopes |
-| Sunday | Long run in the city, or Núi Dinh |
+| Sunday | Long run in the city (twice at night in the park), or Núi Dinh by day |
 
 ## The data
 
 There is no server of our own. The data lives in the same Firestore database
 (Google's online database) as Haba: project `habits-433f8`, in a list called
 `trani`. A done day is one small document. Its name is the day, and it holds
-the day again: `trani/2026-10-21` = `{"day": "2026-10-21"}`. No document means
-not done.
+the day again and, after a feel button, the feel:
+`trani/2026-10-21` = `{"day": "2026-10-21", "feel": "cramp"}`. No document
+means not done. The feel words are `easy`, `ok`, `hard`, `cramp`.
 
 The Firebase config block at the top of `src/app.ts` is public by design. It
 only names the project. What protects the data is the set of rules in the
@@ -77,11 +121,11 @@ service cloud.firestore {
     }
     match /trani/{day} {
       allow read: if true;
-      allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-        && request.resource.data.keys().hasOnly(['day'])
-        && request.resource.data.day == day;
+      allow create, update: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.keys().hasOnly(['day', 'feel'])
+        && request.resource.data.day == day
+        && (!('feel' in request.resource.data) || request.resource.data.feel in ['easy', 'ok', 'hard', 'cramp']);
       allow delete: if true;
-      allow update: if false;
     }
     match /cismo/{key}/events/{id} {
       allow read, delete: if key.size() >= 20;
@@ -105,9 +149,10 @@ service cloud.firestore {
 }
 ```
 
-In plain words, for Trani: anyone can read, anyone can add a document whose
-name is a date and which holds only that date, anyone can delete, nobody can
-change a document after it is written.
+In plain words, for Trani: anyone can read, anyone can add or change a
+document whose name is a date and which holds only that date and maybe a feel
+word, anyone can delete. Before 2026-10-22 a document could not be changed;
+the feel buttons need that change, so the rules must be pasted again.
 
 ## Haba marks
 
@@ -123,17 +168,24 @@ nothing is counted twice. The code is `src/haba-mark.ts`, a copy of
 
 | File | What it is |
 |---|---|
-| `src/index.html` | The page. Both tabs. |
+| `days/*.json` | One recipe per day: the plan itself. Written by `tools/next-day.ts`, or by hand (then `"locked": true`). |
+| `docs/iker.md`, `docs/race.md` | What the plan knows about Iker and about the race. |
+| `src/index.html` | The page. Three tabs. |
 | `src/style.css` | The look. Light and dark mode. |
-| `src/plan.ts` | The whole plan (training and meal types) and the day maths. No browser things, so it can be tested with node. |
-| `src/app.ts` | The page logic: the done button, Firestore, drawing the tabs. |
+| `src/plan.ts` | The recipe types, every session and meal, the day maths, and `expand()` from a recipe to a full day. No browser things, so it can be tested with node. |
+| `src/generate.ts` | The plan rules: the recipe of any date, the lighter day after a cramp, what the daily job keeps. |
+| `src/days.generated.ts` | Made by `tools/gen-days.mjs` from `days/*.json` at build time, not in git. The page carries the days with it, so it works offline. |
+| `src/app.ts` | The page logic: the done and feel buttons, Firestore, drawing the tabs. |
 | `src/guide.ts` | What the voice says and the screen shows, second by second, in one core set. Tested with node. |
 | `src/player.ts` | Plays a set: the bar at the bottom, the timers, the sound, keeping the screen on. |
 | `src/voice.mp3`, `src/voice.ts` | All voice lines in one sound file, and where each line starts. Made by `tools/make-voice.mjs`. |
-| `tools/make-voice.mjs` | Makes the voice with edge-tts (Microsoft's free voice, `vi-VN-HoaiMyNeural`, like Rebo) and ffmpeg. Run it after changing a line in `src/guide.ts`; the tests fail until you do. It asks the service only once, for all 30 lines together, and cuts the sound where each sentence ends: the free service refuses for a long time when asked many times in a row. The voice is the same for every day, so it is made once, not daily. |
+| `tools/next-day.ts` | Writes the recipe files of today and the next seven days (reads Firestore for done days and feels). |
+| `tools/daily.sh` | The morning run: next-day, test, build, commit, push. Started by the user timer `trani.timer` on Alpha's box. |
+| `tools/gen-days.mjs` | Collects `days/*.json` into `src/days.generated.ts`. Run by `npm run check` and `npm run build`. |
+| `tools/make-voice.mjs` | Makes the voice with edge-tts (Microsoft's free voice, `vi-VN-HoaiMyNeural`, like Rebo) and ffmpeg. Run it after changing a line in `src/guide.ts`; the tests fail until you do. It asks the service only once, for all 30 lines together: the free service refuses for a long time when asked many times in a row. |
 | `src/manifest.webmanifest`, `src/icon*` | Home-screen icon and app name. |
-| `test/plan.test.ts` | Tests for the plan and the day maths. |
-| `test/browser.test.ts` | Test of the whole page in a headless browser against the real database. It marks one day and puts it back as it was. |
+| `test/plan.test.ts` | Tests for the plan, the rules, the day files and the voice guide. |
+| `test/browser.test.ts` | Test of the whole page in a headless browser against the real database. It marks one day that is not done yet and puts it back. |
 | `build.mjs` | The build: bundles `src/app.ts` with Firebase into `dist/app.js`, copies the static files. |
 | `.github/workflows/deploy.yml` | Build and deploy on every push to `main`. |
 
@@ -150,19 +202,21 @@ On a computer:
 
 ```
 npm install            # once
+npm run days           # write the day files of today and the next 7 days
 npm test               # type-check and plan tests
 npm run build          # makes dist/
 npm run serve          # opens dist/ on http://127.0.0.1:8766
 npm run test:browser   # needs: npx playwright install chromium
+npm run daily          # the whole morning run, with commit and push
 ```
 
-`main` is kept as one squashed commit, like Haba, and `gh-pages` is rebuilt as
-one fresh commit on every deploy. Both are force-pushed. That is fine here: the
-repo is small and only Alpha writes to it.
+`main` has normal commits: the morning run adds one every day. `gh-pages` is
+rebuilt as one fresh commit on every deploy.
 
 ## Rules of the days
 
 - A day starts at 04:00, not at midnight, like Haba. A press at 01:00 counts
   for the evening before.
 - Weeks start on Monday.
-- Rest days (Mondays) and future days cannot be marked.
+- Rest days (Mondays and 25 December), future days and days without a file
+  cannot be marked.
