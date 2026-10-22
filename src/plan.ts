@@ -296,6 +296,7 @@ const CALF = [
 ];
 
 function homeA(sets: number, key: DayKey): Step[] {
+  const c = Math.min(2, sets);   // the short core part at the end: 2 sets at most, 1 on the trial day
   return [
     { name: 'Khởi động', dose: '5 phút', note: ['Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.'] },
     { name: 'Bước lên bậc (Step-up)', dose: `${sets} x 12 mỗi chân`, note: STEP_UP },
@@ -304,8 +305,8 @@ function homeA(sets: number, key: DayKey): Step[] {
     { name: 'Bước ngang với dây ngắn', dose: `${sets} lần x 10 bước mỗi bên`, note: SIDE_WALK },
     { name: 'Nhón gót một chân trên bậc thang', dose: `${sets} x 12 mỗi chân`, note: CALF },
     { name: 'Core: Plank', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, guide: { ex: 'plank', sets, hold: plankSec(key) } },
-    { name: 'Core: Plank nghiêng', dose: `2 x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, guide: { ex: 'side', sets: 2, hold: sideSec(key) } },
-    { name: 'Core: Dead Bug', dose: '2 x 10 mỗi bên', note: DEAD_BUG, guide: { ex: 'deadbug', sets: 2, reps: 20, pace: 3 } },
+    { name: 'Core: Plank nghiêng', dose: `${c} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, guide: { ex: 'side', sets: c, hold: sideSec(key) } },
+    { name: 'Core: Dead Bug', dose: `${c} x 10 mỗi bên`, note: DEAD_BUG, guide: { ex: 'deadbug', sets: c, reps: 20, pace: 3 } },
   ];
 }
 
@@ -491,6 +492,16 @@ function sunday(key: DayKey, s: Sunday): Day {
   };
 }
 
+/** 2026-10-23: sessions A and B tried in one evening, 1 set of every exercise, to learn the moves. One warm-up at the
+ *  start (legs and shoulders), then the band is tied before the arm part; no second warm-up in the middle (Iker, 2026-10-22). */
+function trialAB(key: DayKey): Step[] {
+  const a = homeA(1, key), b = homeB(1, true);
+  const warmUp: Step = { name: 'Khởi động', dose: '5 phút', note: [
+    'Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.', 'Xoay vai ra trước 10 lần, ra sau 10 lần.',
+  ] };
+  return [warmUp, ...a.slice(1), b[0]!, ...b.slice(2)];
+}
+
 /** Days that do not follow the normal week: the first days and the race week. */
 function special(key: DayKey): Day | null {
   switch (key) {
@@ -498,8 +509,8 @@ function special(key: DayKey): Day | null {
     case '2026-10-22': return weekday2(key, 'Thử bài core, leo cầu thang đều 30 phút', steady(30, 0, true),
       coreAtHome(key, 2, 'Thử bài core ở nhà, khoảng 10 phút.', 'Lần đầu tập core: mỗi bài 2 hiệp, làm chậm và đúng.'));
     case '2026-10-23': return weekday2(key, 'Tập thử bài ở nhà A và B', {
-      time: '17:45', tag: 'train', text: 'Tập thử Bài ở nhà A và Bài ở nhà B. Mỗi bài 2 hiệp, tập nhẹ để học động tác.',
-      steps: [...homeA(2, key), ...homeB(2, true).slice(1)], note: BAND_NOTE }, 0);
+      time: '17:45', tag: 'train', text: 'Tập thử Bài ở nhà A và Bài ở nhà B: mỗi bài 1 hiệp, tập nhẹ để học động tác. Khoảng 40 phút.',
+      steps: trialAB(key), note: BAND_NOTE }, 0);
     case '2026-12-21': return restDay(key, 'Nghỉ. Core nhẹ.', 2);
     case '2026-12-22': return weekday2(key, 'Chạy dễ 40 phút, có leo dốc nhẹ', {
       time: '17:45', tag: 'train', text: 'Chạy dễ 40 phút, trong đó có 4 lần x 2 phút leo dốc ở mức vừa (Z3).',
