@@ -104,28 +104,11 @@ a { color: var(--accent-text); }
 .how li { margin: 4px 0; padding: 0; border: 0; }
 @media (prefers-reduced-motion: reduce) { .steps .name::before { transition: none; } }
 
-/* ---- 7 ngày ---- */
+/* ---- lịch: the counts ---- */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0 12px; }
 .stats div { border: 1px solid var(--border); border-radius: 12px; padding: 10px; text-align: center; }
 .stats b { display: block; font-size: 26px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .stats span { font-size: 13px; color: var(--text-2); }
-
-.list { margin-top: 8px; }
-.dayrow { display: grid; grid-template-columns: 78px minmax(0, 1fr) auto; gap: 10px; align-items: center; margin: 0 0 6px;
-  padding: 10px 10px 10px 8px; border: 1px solid var(--border); border-left-width: 6px; border-radius: 10px;
-  text-decoration: none; color: var(--text); background: var(--surface); }
-.dayrow .d { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
-.dayrow .t { font-size: 15px; }
-.dayrow .st { font-size: 12px; color: var(--text-2); white-space: nowrap; text-align: right; }
-.dayrow.s-done { border-left-color: var(--accent); }
-.dayrow.s-done .st { color: var(--accent-text); font-weight: 700; }
-.dayrow.s-missed { border-style: dashed; border-left-style: solid; color: var(--text-2); }
-.dayrow.s-rest { border-left-color: var(--rest); }
-.dayrow.s-open { border-left-color: var(--race); }
-.dayrow.s-future { border-left-color: var(--surface-2); }
-.dayrow.s-out { border-left-color: transparent; color: var(--text-2); }
-.dayrow.today { box-shadow: 0 0 0 2px var(--text); }
-.dayrow.sel { outline: 3px solid var(--race); outline-offset: 1px; }
 
 /* ---- lịch: the calendar ---- */
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: var(--text-2); }

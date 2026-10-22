@@ -28,15 +28,15 @@ Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
   there is time to move out, hold 2 seconds and come back (Iker, 2026-10-22).
   There is no rest timer: Iker taps ▶ again when ready. The screen stays on
   while a set runs.
-- **7 ngày (7 days).** Today and the next seven days, one row each: the day,
-  the title and the state (done and how it felt, not done, today, rest, coming).
-  Press a row to see that day.
-- **Lịch (Calendar).** Every week from the start of the plan to the race, one
-  box per day (Iker, 2026-10-22: to look back at what was trained). Green means
-  done, with a small sign for how it felt (🙂 easy, 👌 ok, 😓 hard, 🦵 cramp).
-  Grey with a dashed line means past and not done. Blue means a rest day.
-  Press a box to see that day. A past day keeps the file it was trained with,
-  so the history is true.
+- **Lịch (Calendar).** The counts (done, not done, days to the race) and
+  every week from the start of the plan to the race, one box per day (Iker,
+  2026-10-22: to look back at what was trained; the 7-day list was removed the
+  same day). Green means done, with a small sign for how it felt (🙂 easy,
+  👌 ok, 😓 hard, 🦵 cramp). Grey with a dashed line means past and not done.
+  Blue means a rest day. A box with a border is a coming day that has its file
+  already (the next seven days); a faint box has none yet. Press a box to see
+  that day. A past day keeps the file it was trained with, so the history is
+  true.
 - **Ngày đua (Race day).** The race page: start time, time limit, target pace,
   the gear the organizer asks for, what to do before, during and after.
 
@@ -176,7 +176,7 @@ nothing is counted twice. The code is `src/haba-mark.ts`, a copy of
 |---|---|
 | `days/*.json` | One recipe per day: the plan itself. Written by `tools/next-day.ts`, or by hand (then `"locked": true`). |
 | `docs/iker.md`, `docs/race.md` | What the plan knows about Iker and about the race. |
-| `src/index.html` | The page. Four tabs. |
+| `src/index.html` | The page. Three tabs. |
 | `src/style.css` | The look. Light and dark mode. |
 | `src/plan.ts` | The recipe types, every session and meal, the day maths, and `expand()` from a recipe to a full day. No browser things, so it can be tested with node. |
 | `src/generate.ts` | The plan rules: the recipe of any date, the lighter day after a cramp, what the daily job keeps. |

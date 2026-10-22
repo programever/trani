@@ -46,14 +46,10 @@ test('the page shows the plan and saves a done day', async () => {
     page.on('pageerror', e => errors.push(String(e)));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 
-    await page.goto(url + '#week');
-    await page.waitForSelector('.stats b', { timeout: 20000 });
-    await page.screenshot({ path: '/tmp/trani-week.png', fullPage: true });
-    assert.equal(await page.locator('#week > .dayrow').count(), 8, 'today and the next 7 days');
-    assert.equal(await page.locator('#status').innerText(), '', 'no error message');
-
     await page.goto(url + '#cal');
+    await page.waitForSelector('.stats b', { timeout: 20000 });
     await page.waitForSelector('#grid .cell', { timeout: 20000 });
+    assert.equal(await page.locator('#status').innerText(), '', 'no error message');
     assert.equal(await page.locator('#grid .wk:not(.head) > .cell').count(), 70, '10 weeks of 7 days on the calendar');
     await page.screenshot({ path: '/tmp/trani-cal.png', fullPage: true });
 
@@ -84,8 +80,6 @@ test('the page shows the plan and saves a done day', async () => {
     await page.click('#mark-btn');
     await waitFor(page, true);
     assert.equal(await page.locator('#feel .feel-btn').count(), 4, 'the feel buttons appear under done');
-    const rowOf = page.locator(`#week a[href="#day-${day}"]`);
-    assert.equal(await rowOf.evaluate(e => e.classList.contains('s-done')), true, 'the 7-day tab agrees');
     assert.equal(await page.locator(`#grid a[href="#day-${day}"]`).evaluate(e => e.classList.contains('s-done')), true, 'the calendar agrees');
 
     // a second tab sees the same data
