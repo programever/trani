@@ -126,8 +126,28 @@ a { color: var(--accent-text); }
 .dayrow.s-out { border-left-color: transparent; color: var(--text-2); }
 .dayrow.today { box-shadow: 0 0 0 2px var(--text); }
 .dayrow.sel { outline: 3px solid var(--race); outline-offset: 1px; }
-.past { margin-top: 18px; }
-.past summary { cursor: pointer; font-weight: 600; color: var(--text-2); padding: 6px 0; }
+
+/* ---- lịch: the calendar ---- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: var(--text-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend .cell { width: 18px; height: 18px; min-height: 0; border-radius: 5px; }
+.grid { margin-top: 10px; }
+.wk { display: grid; grid-template-columns: 34px repeat(7, 1fr); gap: 4px; margin-bottom: 4px; align-items: center; }
+.wk .wl { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.wk .dh { text-align: center; font-size: 13px; font-weight: 600; color: var(--text-2); }
+.cell { position: relative; display: flex; align-items: center; justify-content: center; gap: 2px; min-height: 44px;
+  border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; text-decoration: none;
+  color: var(--text); background: var(--surface); border: 1px solid var(--border); }
+.cell.s-done { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.cell.s-missed { background: var(--surface-2); color: var(--text-2); border-style: dashed; }
+.cell.s-rest { background: var(--rest-soft); border-color: transparent; color: var(--text-2); }
+.cell.s-open { border: 2px solid var(--accent); font-weight: 600; }
+.cell.s-future { color: var(--text-2); }
+.cell.s-out { border-color: transparent; color: var(--border); background: transparent; }
+.cell.today { box-shadow: 0 0 0 2px var(--text); }
+.cell.sel { outline: 3px solid var(--race); outline-offset: 1px; }
+.cell .fi { font-style: normal; font-size: 13px; }
+.cell .flag { position: absolute; top: -7px; right: -5px; font-style: normal; font-size: 14px; }
 
 /* ---- how the day felt ---- */
 .feel { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }

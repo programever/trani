@@ -1,5 +1,5 @@
-// Trani page. Three tabs: Hôm nay (the whole day, the done button and how it felt), 7 ngày (today and the next
-// 7 days) and Ngày đua (the race page). The days come from days/*.json, put into the page at build time.
+// Trani page. Four tabs: Hôm nay (the whole day, the done button and how it felt), 7 ngày (today and the next
+// 7 days), Lịch (every day of the plan on a calendar: the history, Iker 2026-10-22) and Ngày đua (the race page). The days come from days/*.json, put into the page at build time.
 // A finished session is one small document in Firestore (Google), in the list "trani". The document name is the
 // day, like "2026-10-21", and it holds {day: "2026-10-21"}; after a feel button also {feel: "cramp"}.
 // No document means not done. Firestore keeps a copy on the phone, so a press made offline is sent later.
@@ -93,7 +93,7 @@ function shortDay(key: P.DayKey): string {
 }
 const WD = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'];
 
-/** The day shown on the first tab: today, or the day picked on the 7-day tab (#day-2026-11-03). */
+/** The day shown on the first tab: today, or the day picked on the 7-day tab or the calendar (#day-2026-11-03). */
 function selectedDay(): P.DayKey {
   const m = /^#day-(\d{4}-\d{2}-\d{2})$/.exec(location.hash);
   return m?.[1] ?? P.today();
@@ -104,6 +104,7 @@ function render(): void {
   const key = selectedDay();
   renderDay(key, todayKey);
   renderWeek(todayKey, key);
+  renderCal(todayKey, key);
   renderRace();
 }
 
@@ -213,12 +214,37 @@ function renderWeek(todayKey: P.DayKey, selected: P.DayKey): void {
     ? `<div><b>${sum.done}</b><span>buổi đã tập</span></div><div><b>${sum.missed}</b><span>buổi chưa tập</span></div>` +
       `<div><b>${Math.max(0, sum.daysToRace)}</b><span>ngày đến giải</span></div>`
     : '<p class="muted">Đang tải…</p>';
-  let html = P.windowKeys(todayKey).map(k => row(k, todayKey, selected)).join('');
-  const past = Array.from({ length: 7 }, (_, i) => P.addDays(todayKey, i - 7)).filter(k => plan.dayOf(k));
-  if (past.length) {
-    html += `<details class="past"><summary>${past.length} ngày đã qua</summary>` + past.map(k => row(k, todayKey, selected)).join('') + '</details>';
+  $('week').innerHTML = P.windowKeys(todayKey).map(k => row(k, todayKey, selected)).join('');
+}
+
+const FEEL_ICON: Record<P.Feel, string> = { easy: '🙂', ok: '👌', hard: '😓', cramp: '🦵' };
+
+/** The calendar: every week from the start of the plan to the race, one cell per day. A past day keeps the file it
+ *  was trained with, so pressing a cell shows what was really planned that day. */
+function renderCal(todayKey: P.DayKey, selected: P.DayKey): void {
+  let html = '<div class="wk head"><span></span>' +
+    ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map(d => `<span class="dh">${d}</span>`).join('') + '</div>';
+  let lastMonth = '';
+  for (let mon = P.weekStart(P.START); mon <= P.RACE; mon = P.addDays(mon, 7)) {
+    const month = 'T' + (dateOf(mon).getMonth() + 1);
+    html += `<div class="wk"><span class="wl">${month === lastMonth ? '' : month}</span>`;
+    lastMonth = month;
+    for (let i = 0; i < 7; i++) {
+      const k = P.addDays(mon, i);
+      const st = plan.stateOf(k, todayKey, state.done);
+      const feel = state.feel.get(k);
+      const cls = `cell s-${st}${k === todayKey ? ' today' : ''}${k === selected && location.hash.startsWith('#day-') ? ' sel' : ''}`;
+      const text = `${dateOf(k).getDate()}${feel ? `<i class="fi">${FEEL_ICON[feel]}</i>` : ''}${k === P.RACE ? '<i class="flag">🏁</i>' : ''}`;
+      const d = plan.dayOf(k);
+      if (!d) html += `<span class="${cls}">${text}</span>`;
+      else {
+        const label = st === 'done' && feel ? `đã tập, ${P.FEEL_LABEL[feel].toLowerCase()}` : STATE_LABEL[st];
+        html += `<a class="${cls}" href="#day-${k}" aria-label="${esc(longDay(k))}: ${esc(d.title)}, ${esc(label)}">${text}</a>`;
+      }
+    }
+    html += '</div>';
   }
-  $('week').innerHTML = html;
+  $('grid').innerHTML = html;
 }
 
 function renderRace(): void {
@@ -230,8 +256,8 @@ function renderRace(): void {
 // and hide the top of the page under the sticky header.
 function showTab(): void {
   const h = location.hash;
-  const name = h === '#week' ? 'week' : h === '#race' ? 'race' : 'today';
-  for (const t of ['today', 'week', 'race']) {
+  const name = h === '#week' ? 'week' : h === '#cal' ? 'cal' : h === '#race' ? 'race' : 'today';
+  for (const t of ['today', 'week', 'cal', 'race']) {
     $('panel-' + t).classList.toggle('active', t === name);
     $('tab-' + t).classList.toggle('active', t === name);
     $('tab-' + t).setAttribute('aria-selected', t === name ? 'true' : 'false');
