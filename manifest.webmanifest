@@ -1,0 +1,12 @@
+{
+  "name": "Trani",
+  "short_name": "Trani",
+  "start_url": "./#today",
+  "display": "standalone",
+  "background_color": "#fcfcfb",
+  "theme_color": "#1f7a52",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

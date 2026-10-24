@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f7a52">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Trani">
+<title>Trani</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css?v=mvmbrxq8">
+</head>
+<body>
+<header class="top">
+  <h1>Trani <span class="race-line">65km Núi Dinh · 27/12</span></h1>
+  <nav class="tabs" role="tablist">
+    <a href="#today" id="tab-today" role="tab">Hôm nay</a>
+    <a href="#cal" id="tab-cal" role="tab">Lịch</a>
+    <a href="#video" id="tab-video" role="tab">Bài tập</a>
+    <a href="#race" id="tab-race" role="tab" hidden>Ngày đua</a>
+  </nav>
+</header>
+
+<main>
+  <section id="panel-today" class="panel" role="tabpanel">
+    <p class="back" id="back" hidden><a href="#today">← Về hôm nay</a></p>
+    <p class="date-line" id="date-line"></p>
+    <p class="muted" id="countdown"></p>
+    <div id="mark"></div>
+    <p class="status" id="status" aria-live="polite"></p>
+    <article class="session" id="session"></article>
+  </section>
+
+  <section id="panel-cal" class="panel" role="tabpanel">
+    <div class="stats" id="stats"></div>
+    <p class="muted">Bấm vào một ngày để xem bài của ngày đó. Mỗi sáng kế hoạch được thêm một ngày, luôn có sẵn 7 ngày tới.</p>
+    <div class="legend">
+      <span><i class="cell s-done"></i>Đã tập</span>
+      <span><i class="cell s-missed"></i>Chưa tập</span>
+      <span><i class="cell s-rest"></i>Nghỉ chạy</span>
+      <span><i class="cell s-future"></i>Sắp tới, đã có bài</span>
+      <span>🙂 dễ · 👌 ổn · 😓 nặng · 🦵 chuột rút</span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="panel-video" class="panel" role="tabpanel">
+    <p class="muted">Video cách làm từng bài. Video tiếng Anh, chỉ cần xem động tác. Bấm ▶ để xem ngay trong trang.</p>
+    <div id="video-list"></div>
+  </section>
+
+  <section id="panel-race" class="panel" role="tabpanel">
+    <p class="date-line">Chủ nhật, 27/12/2026 · Dinh Harvest Final 2026</p>
+    <article class="session" id="race-body"></article>
+  </section>
+</main>
+<div class="player" id="player" hidden>
+  <div class="player-in">
+    <div class="p-head"><b id="p-name"></b><span id="p-set"></span></div>
+    <div class="p-big" id="p-big" aria-live="off"></div>
+    <div class="p-small" id="p-small"></div>
+    <div class="p-btns">
+      <button type="button" id="p-pause">Tạm dừng</button>
+      <button type="button" id="p-next" hidden></button>
+      <button type="button" id="p-close">Dừng</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="app.js?v=mvmbrxq8"></script>
+</body>
+</html>
