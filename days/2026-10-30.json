@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-30",
+  "week": "Tuần 1",
+  "type": "weekday",
+  "am": {
+    "run": 30
+  },
+  "pm": {
+    "kind": "homeB",
+    "sets": 3,
+    "legs": true,
+    "note": "Tuần đầu: tập nhẹ, chú ý làm đúng động tác."
+  }
+}
