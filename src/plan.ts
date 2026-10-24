@@ -321,12 +321,9 @@ function homeA(sets: number, key: DayKey): Step[] {
   ];
 }
 
-const ANCHOR = [
-  'Vòng hoặc buộc dây dài vào chỗ chắc, cao hơn đầu: song sắt cửa sổ, hoặc lan can cầu thang ở trên.',
-  'Trước mỗi buổi: xem dây có vết nứt hoặc chỗ mỏng không. Kéo thử nhẹ vài lần.',
-  'Khi tập, đừng để mặt ở ngay đường dây có thể bật về.',
-];
+// The band is tied before this first arm exercise; it is not an exercise of its own (Iker, 2026-10-24).
 const STRAIGHT_ARM = [
+  'Trước hết, vòng hoặc buộc dây dài vào chỗ chắc, cao hơn đầu: song sắt cửa sổ, hoặc lan can cầu thang ở trên. Xem dây có vết nứt không.',
   'Đứng đối diện chỗ buộc, lùi ra đến khi dây hơi căng. Hai tay nắm dây ở ngang mặt, tay thẳng, khuỷu hơi chùng.',
   'Người hơi nghiêng về trước, siết bụng.',
   'Giữ tay thẳng, kéo dây xuống theo hình vòng cung đến ngang hông.',
@@ -377,7 +374,6 @@ const BAND_BRIDGE = ['Đeo dây ngắn ngay trên gối.', ...BRIDGE.slice(0, 3)
 
 function homeB(sets: number, withLegs: boolean): Step[] {
   const steps: Step[] = [
-    { name: 'Buộc dây dài vào chỗ cao và chắc', note: ANCHOR },
     { name: 'Khởi động', dose: '3 phút', note: ['Xoay vai ra trước 10 lần, ra sau 10 lần.', 'Xoay cánh tay thành vòng tròn 10 lần.', 'Làm 1 hiệp hít đất nhẹ, có thể chống gối.'] },
     { name: 'Kéo dây thẳng tay', dose: `${sets} x 15 - 20`, note: STRAIGHT_ARM, video: 'straightarm' },
     { name: 'Đẩy dây tay sau', dose: `${sets} x 15 - 20`, note: PUSHDOWN, video: 'pushdown' },
@@ -396,7 +392,7 @@ function homeB(sets: number, withLegs: boolean): Step[] {
 const BAND_NOTE = 'Đứng xa chỗ buộc thì dây căng hơn, nặng hơn. Chọn khoảng cách sao cho làm xong số lần vẫn còn sức thêm 2 - 3 lần.';
 
 /** 2026-10-23: sessions A and B tried in one evening, 1 set of every exercise, to learn the moves. One warm-up at the
- *  start (legs and shoulders), then the band is tied before the arm part; no second warm-up in the middle (Iker, 2026-10-22). */
+ *  start (legs and shoulders); no second warm-up in the middle (Iker, 2026-10-22). */
 function trialAB(key: DayKey): Item {
   const a = homeA(1, key), b = homeB(1, true);
   const warmUp: Step = { name: 'Khởi động', dose: '5 phút', note: [
@@ -404,7 +400,7 @@ function trialAB(key: DayKey): Item {
   ] };
   return {
     time: '17:45', tag: 'train', text: 'Tập thử Bài ở nhà A và Bài ở nhà B: mỗi bài 1 hiệp, tập nhẹ để học động tác. Khoảng 40 phút.',
-    steps: [warmUp, ...a.slice(1), b[0]!, ...b.slice(2)], note: BAND_NOTE,
+    steps: [warmUp, ...a.slice(1), ...b.slice(1)], note: BAND_NOTE,
   };
 }
 

@@ -99,10 +99,12 @@ test('every exercise at home has a detailed how-to', () => {
       assert.ok(Array.isArray(x.note) && x.note.length >= (x.name === 'Khởi động' ? 2 : 3), `${k} ${x.name}`);
     }
   }
-  // The trial of 23 Oct: one warm-up, the band tied before the arm part, 1 set each (Iker, 2026-10-22).
+  // The trial of 23 Oct: one warm-up, 1 set each (Iker, 2026-10-22). Tying the band is not an exercise: it is the
+  // first line of the first band exercise (Iker, 2026-10-24).
   const names = stepsOf(dayOf('2026-10-23')).map(x => x.name);
   assert.equal(names.filter(n => n === 'Khởi động').length, 1);
-  assert.equal(names.indexOf('Buộc dây dài vào chỗ cao và chắc'), names.indexOf('Kéo dây thẳng tay') - 1);
+  assert.ok(!names.some(n => /Buộc dây/.test(n)));
+  assert.match(String(stepsOf(dayOf('2026-10-23')).find(x => x.name === 'Kéo dây thẳng tay')?.note?.[0]), /buộc dây dài vào chỗ chắc/);
   assert.ok(stepsOf(dayOf('2026-10-23')).every(x => !x.dose || !/^[23] x/.test(x.dose)), '1 set each');
 });
 

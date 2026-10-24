@@ -11,10 +11,11 @@ Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
 
 ## The page
 
-- **Hôm nay (Today).** The whole day, in three parts: Sáng, Trưa, Tối
-  (morning, noon, evening). Each part is a list with a time: what to eat, what
-  to train (with every exercise, how long or how many times, and how), and
-  when to stretch and sleep. Iker follows the list as it is. Under the date is
+- **Hôm nay (Today).** The training of the day: the morning session and the
+  evening session, with a time, every exercise, how long or how many times,
+  how (tap the exercise), and its video. Meals and sleep are in the plan files
+  but not shown (Iker, 2026-10-24: "chỉ cần nói sáng tập gì và chiều tập gì");
+  the race page shows everything. Under the date is
   one big button: "done". Press it again to take the mark away. Under "done"
   are four buttons for how the session felt: Dễ, Ổn, Nặng, Chuột rút (easy,
   ok, hard, cramp). Press one; press the same one again to clear it.
@@ -39,8 +40,8 @@ Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
   true.
 - **Bài tập (Exercises).** One YouTube video per exercise, in three groups
   (core, legs, arms), with one line that says what to look at. The video loads
-  only when ▶ is pressed. Every exercise in a day's how-to has a link "▶ Xem
-  video cách làm" to its card. Iker asked for this on 2026-10-22, because the
+  only when ▶ is pressed. The same video is inside every exercise's how-to on
+  the Today tab. Iker asked for this on 2026-10-22, because the
   how-to text is not always enough to remember a move. The list is in
   `src/videos.ts`; the videos are in English.
 - **Ngày đua (Race day).** The race page: start time, time limit, target pace,

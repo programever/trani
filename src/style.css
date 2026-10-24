@@ -149,8 +149,8 @@ a { color: var(--accent-text); }
   background: rgba(220, 40, 40, 0.92); color: #fff; font-size: 26px; cursor: pointer; touch-action: manipulation; }
 .vcard .note { margin: 6px 0 0; color: var(--text-2); font-size: 15px; }
 .vby { margin: 2px 0 0; font-size: 13px; color: var(--text-2); }
-.how .vlink { list-style: none; margin-left: -22px; padding-top: 4px; }
-.how .vlink a { font-weight: 600; text-decoration: none; }
+.steps details .video { margin-top: 8px; }
+.steps details .vby { margin: 4px 0 0; font-size: 14px; color: var(--text-2); }
 .tabs a[hidden] { display: none; }
 
 /* ---- voice guide for core ---- */

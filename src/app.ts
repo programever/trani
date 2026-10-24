@@ -147,11 +147,22 @@ function dayHtml(day: P.Day, key: P.DayKey): string {
   let html = `<p class="week">${esc(day.week)}</p><h2>${esc(day.title)}</h2>`;
   if (day.why) html += `<p class="why">${esc(day.why)}</p>`;
   day.sections.forEach((sec, si) => {
+    // A training day shows only the training, morning and evening; no meals, no sleep (Iker, 2026-10-24).
+    // The race page keeps everything.
+    const items = day.kind === 'race' ? [...sec.items] : sec.items.filter(it => it.tag === 'train');
+    if (!items.length) return;
     html += `<h3>${esc(sec.name)}</h3><ol class="items">`;
-    sec.items.forEach((it, ii) => { html += item(it, `${key}/${si}/${ii}`); });
+    items.forEach(it => { html += item(it, `${key}/${si}/${sec.items.indexOf(it)}`); });
     html += '</ol>';
   });
   return html;
+}
+
+/** The picture of a video with a ▶ button; the video itself loads when the button is pressed (see playVideo). */
+function videoBox(k: VideoKey): string {
+  const v = VIDEOS[k];
+  return `<div class="video" data-id="${esc(v.id)}" data-name="${esc(v.name)}"><img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy">` +
+    `<button class="vplay" type="button" aria-label="Xem video: ${esc(v.name)}">▶</button></div>`;
 }
 
 const TAG_LABEL: Record<P.Tag, string> = { eat: 'Ăn', train: 'Tập', care: 'Sinh hoạt' };
@@ -168,7 +179,7 @@ function item(it: P.Item, id: string): string {
   if (it.note) html += `<p class="note">${esc(it.note)}</p>`;
   if (it.steps?.length) {
     if (it.steps.some(x => x.note)) {
-      html += '<p class="hint">Bấm vào tên bài để xem cách làm.' + (it.steps.some(x => x.guide) ? ' Bấm ▶ để tập 1 hiệp cùng giọng đọc.' : '') + '</p>';
+      html += '<p class="hint">Bấm vào tên bài để xem cách làm và video.' + (it.steps.some(x => x.guide) ? ' Bấm ▶ để tập 1 hiệp cùng giọng đọc.' : '') + '</p>';
     }
     html += '<ul class="steps">';
     it.steps.forEach((x, j) => {
@@ -182,10 +193,11 @@ function item(it: P.Item, id: string): string {
         btn = `<button class="play" type="button" data-play="${esc(sid)}" aria-label="Tập cùng giọng đọc: ${esc(name)}">` +
           `${buttonLabel(sid, x.guide.sets)}</button>`;
       }
-      const vlink = x.video ? `<li class="vlink"><a href="#video-${x.video}">▶ Xem video cách làm</a></li>` : '';
+      // Every exercise has its video right inside its how-to (Iker, 2026-10-24).
+      const video = x.video ? videoBox(x.video) + `<p class="vby">${esc(VIDEOS[x.video].note)}</p>` : '';
       const body = lines.length
         ? `<details data-id="${esc(sid)}"${opened.has(sid) ? ' open' : ''}><summary class="row">${head}</summary>` +
-          `<ul class="how">${lines.map(l => `<li>${esc(l)}</li>`).join('')}${vlink}</ul></details>`
+          `<ul class="how">${lines.map(l => `<li>${esc(l)}</li>`).join('')}</ul>${video}</details>`
         : `<div class="row plain">${head}</div>`;
       html += `<li${btn ? ' class="g"' : ''}>${body}${btn}</li>`;
     });
@@ -241,9 +253,7 @@ function renderVideos(): void {
     html += `<h3>${esc(g.name)}</h3>`;
     for (const k of g.keys) {
       const v = VIDEOS[k];
-      html += `<div class="vcard" id="v-${k}"><p class="vname">${esc(v.name)}</p>` +
-        `<div class="video" data-id="${esc(v.id)}" data-name="${esc(v.name)}"><img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy">` +
-        `<button class="vplay" type="button" aria-label="Xem video: ${esc(v.name)}">▶</button></div>` +
+      html += `<div class="vcard" id="v-${k}"><p class="vname">${esc(v.name)}</p>${videoBox(k)}` +
         `<p class="note">${esc(v.note)}</p><p class="vby">Video: ${esc(v.by)}</p></div>`;
     }
   }
@@ -306,10 +316,12 @@ function listen(): void {
 // ---------- wiring ----------
 function init(): void {
   renderVideos();
-  $('video-list').addEventListener('click', e => {
-    const box = (e.target as Element).closest<HTMLElement>('.video');
-    if (box && !box.querySelector('iframe')) playVideo(box);
-  });
+  for (const id of ['video-list', 'session']) {
+    $(id).addEventListener('click', e => {
+      const box = (e.target as Element).closest<HTMLElement>('.video');
+      if (box && !box.querySelector('iframe')) playVideo(box);
+    });
+  }
   showTab();
   window.addEventListener('hashchange', showTab);
   // "toggle" does not bubble, so listen while it goes down to the details element.

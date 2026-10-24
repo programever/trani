@@ -78,6 +78,9 @@ test('the page shows the plan and saves a done day', async () => {
       before = await isDone(page);
     }
     assert.equal(await page.locator('#panel-today h2').innerText(), plan.dayOf(day)!.title);
+    assert.equal(await page.locator('#session .t-eat').count(), 0, 'no meals on a training day (Iker, 2026-10-24)');
+    const withVideo = plan.dayOf(day)!.sections.flatMap(x => x.items).filter(i => i.tag === 'train').flatMap(i => [...(i.steps ?? [])]).filter(x => x.video).length;
+    assert.equal(await page.locator('#session .steps details .video').count(), withVideo, 'a video inside every exercise');
     await page.screenshot({ path: '/tmp/trani-day.png', fullPage: true });
     if (before) {
       // Every day that can be marked is done already: pressing would lose Iker's feel, so the rest is skipped.
