@@ -129,7 +129,8 @@ test('mountain days by day, night runs in the park, the lighter weeks (Iker, 202
     assert.equal(d.sections[0]!.items.find(i => i.tag === 'train')?.time, '6:00', `${k}: the mountain only by day`);
     assert.match(textOf(d), /trong nắng/, `${k}: the heat at the end is on purpose`);
   }
-  assert.match(textOf(dayOf('2026-12-06')), /tập thử cho ngày đua/);
+  // Iker, 2026-10-26: no trial sessions in the future. Only the two past trial days (22 and 23 Oct) keep the word.
+  for (const [k, d] of plan.days) if (k > '2026-10-26') assert.doesNotMatch(textOf(d), /[Tt]ập thử|[Tt]hử bài|rehearsal/, k);
   assert.match(textOf(dayOf('2026-10-31')), /Gậy, ba lô/, 'Saturday before a mountain day: get the gear ready');
   for (const k of ['2026-11-29', '2026-12-13']) {
     const d = dayOf(k);

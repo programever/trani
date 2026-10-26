@@ -4,7 +4,7 @@
 // rewrite any day by hand with Iker (locked: true keeps it). No browser things, so the tests can check every date.
 //
 // The weeks (Iker, 2026-10-21): a start week, weeks 1-3 build up, week 4 lighter, weeks 5-7 build up, week 8 and
-// the race week lighter. Núi Dinh by day on Sunday 1 Nov, 15 Nov and 6 Dec (the rehearsal). Two long runs in the
+// the race week lighter. Núi Dinh by day on Sunday 1 Nov, 15 Nov and 6 Dec. No trial sessions (Iker, 2026-10-26). Two long runs in the
 // park at night (29 Nov, 13 Dec), like the 02:00 start of the race; never on the mountain at night (Iker, 2026-10-22).
 // Cramps came at about hour 5 in both slow races (Iker, 2026-10-22), so a day marked "chuột rút" makes the next
 // training day lighter, and "nặng" twice in a row does the same.
@@ -42,7 +42,7 @@ const WEEKS: readonly Week[] = [
     sun: { long: 150 }, homeNote: 'Tuần nhẹ: mỗi bài bớt 1 hiệp.' },
   { label: 'Tuần 5', am: [1, 2, 4], amMin: 40, reps: 6, work: 4, steady: 45, pack: 3, sets: 3, sat: 120, sun: { long: 210, night: true } },
   { label: 'Tuần 6', am: [1, 2, 4], amMin: 40, reps: 7, work: 4, steady: 50, pack: 3, sets: 3, sat: 60,
-    sun: { mountain: '6 - 7 tiếng', rehearsal: true } },
+    sun: { mountain: '6 - 7 tiếng' } },
   { label: 'Tuần 7 · tuần nặng nhất', am: [1, 2, 4], amMin: 40, reps: 8, work: 4, steady: 50, pack: 3, sets: 3, sat: 120,
     sun: { long: 180, night: true } },
   { label: 'Tuần 8 · bắt đầu giảm', am: [1, 4], amMin: 30, reps: 5, work: 3, steady: 30, pack: 0, sets: 2, sat: 60,

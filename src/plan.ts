@@ -119,7 +119,7 @@ export type Pm =
 /** The morning of a weekday: an easy run (minutes), core at home, or nothing. */
 export type Am = { run: number } | { core: number; text: string; note?: string } | null;
 /** Sunday: a long run in the city (night: in the park from 03:00 with the headlamp), or Núi Dinh by day. */
-export type Sunday = { long: number; night?: boolean } | { mountain: string; rehearsal?: boolean };
+export type Sunday = { long: number; night?: boolean } | { mountain: string };
 
 /** week: the label over the title. why: one line under the title. locked: the daily job never rewrites it. */
 interface Base { date: DayKey; week: string; why?: string; locked?: boolean }
@@ -383,7 +383,7 @@ const longRun = (min: number, night: boolean): Item => ({
   steps: [{ name: 'Chạy đều mức dễ (Z2)', dose: dur(min), note: 'Lên cầu thì đi bộ nhanh hoặc chạy chậm. Không để nhịp tim lên Z4.' }, ...EAT_DRINK],
 });
 
-const mountain = (hours: string, rehearsal: boolean): Item => ({
+const mountain = (hours: string): Item => ({
   time: '6:00', tag: 'train', text: `Chạy Núi Dinh ${hours}.`,
   steps: [
     { name: 'Leo đều, mức dễ đến vừa (Z2 - Z3)', note: ['Không lên Z4. Bước ngắn và đều.', 'Dốc cao: đi bộ nhanh, có thể chống tay lên đùi.', 'Không bung sức sớm. Nửa đầu chậm là cách tốt nhất để không chuột rút.'] },
@@ -397,7 +397,6 @@ const mountain = (hours: string, rehearsal: boolean): Item => ({
     { name: 'Không về sớm', note: ['Giải kết thúc vào buổi trưa nắng.', '1 - 2 tiếng cuối trong nắng là có mục đích: tập cho quen.', 'Đội nón, uống nhiều hơn, dội nước lên đầu và gáy.'] },
     ...EAT_DRINK,
   ],
-  note: rehearsal ? 'Buổi tập thử cho ngày đua: dùng đúng giày, gậy, ba lô, tô muỗng và đồ ăn sẽ dùng trong giải.' : undefined,
 });
 
 // ---------- days ----------
@@ -462,7 +461,7 @@ function sundayDay(week: string, s: Sunday): Day {
   if (!('long' in s)) {
     morning = [{ time: '4:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Giờ có thể đổi tùy đường đi. Bắt đầu chạy lúc trời vừa sáng.' },
       eat('4:15', 'Ăn sáng vừa: nhiều tinh bột, ít dầu mỡ. Ăn trên xe cũng được.', 'Ăn 1,5 - 2 tiếng trước khi bắt đầu chạy.'),
-      mountain(s.mountain, s.rehearsal ?? false), recovery];
+      mountain(s.mountain), recovery];
     title = `Núi Dinh ${s.mountain}`;
   } else if (s.night) {
     morning = [{ time: '2:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Tối hôm trước đi ngủ lúc 20:00. Đèn đội đầu sạc đầy.' },

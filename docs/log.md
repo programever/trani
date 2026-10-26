@@ -20,6 +20,11 @@ are listed here only when Alpha copies them in.
 
 ## 2026-10-26 (Monday)
 
+- Iker: no trial sessions in the future ("Tôi kg muốn thử"). The only one left
+  was the race rehearsal note on the Núi Dinh day of 6 December (use the race
+  shoes, poles, backpack and food). Removed; the mountain day itself stays.
+  The past trial days of 22 and 23 October stay as history.
+
 - Iker: no arm training at all ("Bỏ hết bài tay"), replace it with core or
   running against the cramps, and remove everything about arm training. Done
   the same day. Home session B (Fridays) is now about 30 minutes: two calf
