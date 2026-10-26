@@ -55,7 +55,7 @@ test('the page shows the plan and saves a done day', async () => {
 
     await page.goto(url + '#video');
     await page.waitForSelector('#video-list .vcard', { timeout: 20000 });
-    assert.equal(await page.locator('#video-list .vcard').count(), 18, 'one card per exercise');
+    assert.equal(await page.locator('#video-list .vcard').count(), 12, 'one card per exercise');
     await page.click('#v-deadbug .vplay');
     assert.equal(await page.locator('#v-deadbug iframe').count(), 1, 'the video loads when pressed');
     await page.screenshot({ path: '/tmp/trani-video.png', fullPage: true });

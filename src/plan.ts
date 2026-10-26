@@ -143,7 +143,7 @@ const wake = (time: string): Item => ({
   note: 'Mang theo chai nước, uống từng ngụm nhỏ cả ngày, khoảng 2 lít.',
 });
 const rollout = (time = '21:30'): Item => ({
-  time, tag: 'care', text: 'Lăn foam roller 10 phút: đùi trước, bắp chân, mặt ngoài đùi (IT Band). Mát-xa nhẹ tay và vai.',
+  time, tag: 'care', text: 'Lăn foam roller 10 phút: đùi trước, bắp chân, mặt ngoài đùi (IT Band).',
 });
 const sleep = (time = '22:30'): Item => ({ time, tag: 'care', text: 'Đi ngủ. Ngủ đủ 7 - 8 tiếng.' });
 const recovery = eat('Sau chạy', 'Ngay sau khi chạy xong: ăn nhẹ, tinh bột và đạm.', AFTER);
@@ -321,49 +321,6 @@ function homeA(sets: number, key: DayKey): Step[] {
   ];
 }
 
-// The band is tied before this first arm exercise; it is not an exercise of its own (Iker, 2026-10-24).
-const STRAIGHT_ARM = [
-  'Trước hết, vòng hoặc buộc dây dài vào chỗ chắc, cao hơn đầu: song sắt cửa sổ, hoặc lan can cầu thang ở trên. Xem dây có vết nứt không.',
-  'Đứng đối diện chỗ buộc, lùi ra đến khi dây hơi căng. Hai tay nắm dây ở ngang mặt, tay thẳng, khuỷu hơi chùng.',
-  'Người hơi nghiêng về trước, siết bụng.',
-  'Giữ tay thẳng, kéo dây xuống theo hình vòng cung đến ngang hông.',
-  'Giữ 1 giây, rồi đưa tay lên chậm.',
-  'Bạn phải thấy cơ lưng dưới nách làm việc (cơ lưng xô). Không gập khuỷu tay, không giật bằng cả người.',
-  'Đây là động tác giống chống gậy nhất.',
-];
-const PUSHDOWN = [
-  'Đứng đối diện chỗ buộc. Hai tay nắm dây, khuỷu tay gập, ép sát hai bên sườn.',
-  'Chỉ duỗi cẳng tay xuống, đến khi tay thẳng. Giữ 1 giây, siết mặt sau cánh tay.',
-  'Đưa lên chậm. Khuỷu tay đứng yên, không đưa ra trước.',
-  'Cơ mặt sau cánh tay là cơ đẩy gậy xuống.',
-];
-const ROW = [
-  'Buộc dây ngang ngực. Hoặc ngồi duỗi chân, vòng dây qua lòng bàn chân.',
-  'Hai tay nắm dây, tay thẳng phía trước. Lưng thẳng, ngực mở.',
-  'Kéo dây về phía bụng, khuỷu tay đi sát người ra sau. Ép hai bả vai lại với nhau.',
-  'Giữ 1 giây, rồi duỗi tay ra chậm.',
-  'Không nhún vai lên tai.',
-];
-const POLING = [
-  'Đứng đối diện chỗ buộc. Mỗi tay nắm một bên dây, tay đưa ra trước ngang ngực, như vừa cắm gậy.',
-  'Kéo tay phải xuống và ra sau đến ngang hông, tay gần thẳng, như đẩy gậy.',
-  'Khi tay phải đưa về, tay trái kéo xuống. Đổi tay liên tục, nhịp đều như khi leo dốc.',
-  'Tay nắm nhẹ, không nắm chặt.',
-  'Làm liên tục 2 phút, nghỉ 1 phút. Bài này giúp tay quen làm việc lâu.',
-];
-const PUSHUP = [
-  'Hai tay chống sàn, rộng hơn vai một chút. Người thẳng từ đầu đến gót, như Plank.',
-  'Hạ ngực xuống gần sàn. Khuỷu tay chếch ra sau, không bè ra hai bên.',
-  'Đẩy lên đến khi tay thẳng. Thở ra khi đẩy lên.',
-  'Dễ hơn: chống gối, hoặc chống tay lên bậc thang.',
-];
-const DIPS = [
-  'Ngồi trên mép một cái ghế chắc, không có bánh xe. Hai tay chống mép ghế cạnh hông, ngón tay hướng ra trước.',
-  'Đẩy mông ra khỏi ghế. Gối gập vuông góc, bàn chân đặt trên sàn.',
-  'Gập khuỷu tay để hạ người xuống, đến khi khuỷu tay vuông góc. Lưng gần sát ghế.',
-  'Đẩy lên bằng mặt sau cánh tay.',
-  'Khó hơn: duỗi thẳng chân. Nếu đau vai, hạ ít hơn.',
-];
 const BENT_CALF = [
   'Đứng một chân trên mép bậc thang, giống bài nhón gót, nhưng gối hơi gập và giữ gập suốt bài.',
   'Nhón lên cao, giữ 1 giây, rồi hạ gót xuống chậm.',
@@ -372,35 +329,38 @@ const BENT_CALF = [
 ];
 const BAND_BRIDGE = ['Đeo dây ngắn ngay trên gối.', ...BRIDGE.slice(0, 3), 'Trong suốt bài, đẩy hai gối ra ngoài, chống lại dây.', BRIDGE[5]!];
 
-function homeB(sets: number, withLegs: boolean): Step[] {
+/** Session B, Fridays (Iker, 2026-10-26: "Bỏ hết bài tay. Thay vào đó là core hoặc chạy để chống chuột rút."): the
+ *  arm exercises for the poles are gone for good. Now: the calves (where the cramps come) and the whole core. Week 8
+ *  (no more leg work before the race): core only. */
+function homeB(sets: number, withLegs: boolean, key: DayKey): Step[] {
   const steps: Step[] = [
-    { name: 'Khởi động', dose: '3 phút', note: ['Xoay vai ra trước 10 lần, ra sau 10 lần.', 'Xoay cánh tay thành vòng tròn 10 lần.', 'Làm 1 hiệp hít đất nhẹ, có thể chống gối.'] },
-    { name: 'Kéo dây thẳng tay', dose: `${sets} x 15 - 20`, note: STRAIGHT_ARM, video: 'straightarm' },
-    { name: 'Đẩy dây tay sau', dose: `${sets} x 15 - 20`, note: PUSHDOWN, video: 'pushdown' },
-    { name: 'Kéo dây về bụng', dose: `${sets} x 15`, note: ROW, video: 'row' },
-    { name: 'Chống gậy với dây', dose: `${sets} lần x 2 phút`, note: POLING, video: 'poling' },
-    { name: 'Hít đất', dose: `${sets} x 10 - 15`, note: PUSHUP, video: 'pushup' },
-    { name: 'Chống tay sau ghế (Tricep Dips)', dose: `${sets} x 10 - 15`, note: DIPS, video: 'dips' },
+    { name: 'Khởi động', dose: '5 phút', note: ['Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.'] },
   ];
-  if (withLegs) steps.push({ name: 'Nhón gót gối gập', dose: `${sets} x 15 mỗi chân`, note: BENT_CALF, video: 'bentcalf' });
+  if (withLegs) steps.push(
+    { name: 'Nhón gót một chân trên bậc thang', dose: `${sets} x 12 mỗi chân`, note: CALF, video: 'calf' },
+    { name: 'Nhón gót gối gập', dose: `${sets} x 15 mỗi chân`, note: BENT_CALF, video: 'bentcalf' },
+  );
   steps.push(
+    { name: 'Core: Plank', dose: `${sets} x ${plankSec(key)} giây`, note: PLANK, video: 'plank', guide: { ex: 'plank', sets, hold: plankSec(key) } },
+    { name: 'Core: Plank nghiêng', dose: `${sets} x ${sideSec(key)} giây mỗi bên`, note: SIDE_PLANK, video: 'side', guide: { ex: 'side', sets, hold: sideSec(key) } },
+    { name: 'Core: Dead Bug', dose: `${sets} x 10 mỗi bên`, note: DEAD_BUG, video: 'deadbug', guide: { ex: 'deadbug', sets, reps: 20, pace: PACE_HOLD } },
     { name: 'Core: Bird Dog', dose: `${sets} x 10 mỗi bên`, note: BIRD_DOG, video: 'birddog', guide: { ex: 'birddog', sets, reps: 20, pace: PACE_HOLD } },
     { name: 'Core: Glute Bridge với dây ngắn', dose: `${sets} x 15`, note: BAND_BRIDGE, video: 'bandbridge', guide: { ex: 'bandbridge', sets, reps: 15, pace: PACE_BRIDGE } },
   );
   return steps;
 }
-const BAND_NOTE = 'Đứng xa chỗ buộc thì dây căng hơn, nặng hơn. Chọn khoảng cách sao cho làm xong số lần vẫn còn sức thêm 2 - 3 lần.';
 
 /** 2026-10-23: sessions A and B tried in one evening, 1 set of every exercise, to learn the moves. One warm-up at the
- *  start (legs and shoulders); no second warm-up in the middle (Iker, 2026-10-22). */
+ *  start; no second warm-up in the middle (Iker, 2026-10-22). Session B is today's version (no arms since
+ *  2026-10-26); an exercise already in A is not repeated. */
 function trialAB(key: DayKey): Item {
-  const a = homeA(1, key), b = homeB(1, true);
+  const a = homeA(1, key), b = homeB(1, true, key);
   const warmUp: Step = { name: 'Khởi động', dose: '5 phút', note: [
-    'Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.', 'Xoay vai ra trước 10 lần, ra sau 10 lần.',
+    'Lên xuống cầu thang thật nhẹ nhàng 3 phút.', 'Xoay hông, xoay gối, xoay cổ chân, mỗi chỗ 10 vòng.',
   ] };
   return {
     time: '17:45', tag: 'train', text: 'Tập thử Bài ở nhà A và Bài ở nhà B: mỗi bài 1 hiệp, tập nhẹ để học động tác. Khoảng 40 phút.',
-    steps: [warmUp, ...a.slice(1), ...b.slice(1)], note: BAND_NOTE,
+    steps: [warmUp, ...a.slice(1), ...b.slice(1).filter(x => !a.some(y => y.video === x.video))],
   };
 }
 
@@ -577,7 +537,7 @@ export function titleOf(pm: Pm): string {
     case 'intervals': return `Leo dốc biến tốc: ${pm.reps} lần x ${pm.work} phút`;
     case 'homeA': return 'Bài ở nhà A: chân và core';
     case 'steady': return `Leo cầu thang đều ${pm.min} phút`;
-    case 'homeB': return pm.legs ? 'Bài ở nhà B: tay chống gậy' : 'Bài ở nhà B: tay và core (nhẹ)';
+    case 'homeB': return pm.legs ? 'Bài ở nhà B: bắp chân và core' : 'Bài ở nhà B: core (nhẹ)';
     case 'run': return `Chạy dễ ${dur(pm.min)}`;
     case 'trialAB': return 'Tập thử bài ở nhà A và B';
   }
@@ -590,8 +550,8 @@ function pmItem(pm: Pm, key: DayKey): Item {
     case 'steady': return steady(pm.min, pm.pack, pm.easy ?? false);
     case 'homeB': return {
       time: '17:45', tag: 'train',
-      text: pm.legs ? 'Bài ở nhà B: tay chống gậy, bắp chân và core (khoảng 45 phút).' : 'Bài ở nhà B: chỉ tay và core, tập nhẹ.',
-      steps: homeB(pm.sets, pm.legs), note: [pm.note, BAND_NOTE].filter(Boolean).join(' '),
+      text: pm.legs ? 'Bài ở nhà B: bắp chân và core, để chống chuột rút (khoảng 30 phút).' : 'Bài ở nhà B: chỉ core, tập nhẹ.',
+      steps: homeB(pm.sets, pm.legs, key), note: pm.note,
     };
     case 'run': return { ...easyRun(pm.min, '17:45'), ...(pm.text ? { text: pm.text } : {}), ...(pm.note ? { note: pm.note } : {}) };
     case 'trialAB': return trialAB(key);

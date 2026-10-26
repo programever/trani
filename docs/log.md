@@ -20,11 +20,13 @@ are listed here only when Alpha copies them in.
 
 ## 2026-10-26 (Monday)
 
-- Iker thinks the arm training for the poles (home session B, Fridays) is not
-  needed. Alpha mostly agreed and proposed: drop the six arm exercises, keep
-  the bent-knee calf raise and the core, maybe keep one poling exercise with
-  the band, and use the free time for the legs (the cramps). Waiting for
-  Iker's answer. Plan not changed yet.
+- Iker: no arm training at all ("Bỏ hết bài tay"), replace it with core or
+  running against the cramps, and remove everything about arm training. Done
+  the same day. Home session B (Fridays) is now about 30 minutes: two calf
+  exercises (single-leg calf raise, bent-knee calf raise) and the five core
+  exercises with the voice guide. Fridays keep the morning easy run. Week 8:
+  core only. The arm exercises, their videos and texts are deleted. The trial
+  day of 23 October now shows the new session B too.
 
 - Iker: a Monday rest day still has core, so it must be markable. Changed the
   same day: a Monday can now be marked done, it marks Core in Haba, and a

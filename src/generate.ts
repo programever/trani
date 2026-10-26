@@ -27,7 +27,7 @@ interface Week {
   sat: number;             // Saturday run, minutes
   sun: P.Sunday;
   homeNote?: string;
-  lastLegs?: boolean;      // week 8: the last leg session, and the arms session without legs
+  lastLegs?: boolean;      // week 8: the last leg session, and session B is core only
 }
 
 /** One row per week, from the start week (19 Oct) to the race week: see P.weekIndex(). */

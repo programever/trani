@@ -45,7 +45,7 @@ diary. Alpha reads it first and writes every new event there the same day
   that day. A past day keeps the file it was trained with, so the history is
   true.
 - **Bài tập (Exercises).** One YouTube video per exercise, in three groups
-  (core, legs, arms), with one line that says what to look at. The video loads
+  (core, session A legs, session B calves), with one line that says what to look at. The video loads
   only when ▶ is pressed. The same video is inside every exercise's how-to on
   the Today tab. Iker asked for this on 2026-10-22, because the
   how-to text is not always enough to remember a move. The list is in
@@ -108,7 +108,7 @@ Iker's rules for the plan:
 | Tuesday | Morning easy run (most weeks). Evening: hard stair intervals |
 | Wednesday | Morning easy run (some weeks). Evening: home session A, legs and core |
 | Thursday | Evening: steady stairs, later with a backpack |
-| Friday | Morning easy run. Evening: home session B, arms for the poles, calves, core |
+| Friday | Morning easy run. Evening: home session B, calves and core against the cramps, about 30 minutes. No arm training: Iker, 2026-10-26, "Bỏ hết bài tay". Do not add it back. |
 | Saturday | Evening: 1 to 2 hours on bridges and slopes |
 | Sunday | Long run in the city (twice at night in the park), or Núi Dinh by day |
 

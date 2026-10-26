@@ -99,12 +99,11 @@ test('every exercise at home has a detailed how-to', () => {
       assert.ok(Array.isArray(x.note) && x.note.length >= (x.name === 'Khởi động' ? 2 : 3), `${k} ${x.name}`);
     }
   }
-  // The trial of 23 Oct: one warm-up, 1 set each (Iker, 2026-10-22). Tying the band is not an exercise: it is the
-  // first line of the first band exercise (Iker, 2026-10-24).
+  // The trial of 23 Oct: one warm-up, 1 set each (Iker, 2026-10-22), no exercise twice.
   const names = stepsOf(dayOf('2026-10-23')).map(x => x.name);
   assert.equal(names.filter(n => n === 'Khởi động').length, 1);
-  assert.ok(!names.some(n => /Buộc dây/.test(n)));
-  assert.match(String(stepsOf(dayOf('2026-10-23')).find(x => x.name === 'Kéo dây thẳng tay')?.note?.[0]), /buộc dây dài vào chỗ chắc/);
+  const vids = stepsOf(dayOf('2026-10-23')).map(x => x.video).filter(Boolean);
+  assert.equal(new Set(vids).size, vids.length, 'no exercise twice on the trial day');
   assert.ok(stepsOf(dayOf('2026-10-23')).every(x => !x.dose || !/^[23] x/.test(x.dose)), '1 set each');
 });
 
@@ -114,6 +113,13 @@ test('the normal week', () => {
   assert.match(dayOf('2026-11-04').title, /Bài ở nhà A/, 'Wednesday');
   assert.match(dayOf('2026-11-05').title, /cầu thang đều 40 phút/, 'Thursday week 2');
   assert.match(dayOf('2026-11-06').title, /Bài ở nhà B/, 'Friday');
+  // Iker, 2026-10-26: "Bỏ hết bài tay." Session B is the calves and the core, no arm exercise anywhere.
+  const fri = textOf(dayOf('2026-11-06'));
+  assert.match(fri, /Nhón gót gối gập/);
+  assert.match(fri, /Bird Dog/);
+  for (const [k, d] of plan.days) {
+    assert.doesNotMatch(textOf(d), /Hít đất|Tricep|Kéo dây|Đẩy dây|Chống gậy với dây|tay chống gậy|Xoay vai|tay và vai/, k);
+  }
 });
 
 test('mountain days by day, night runs in the park, the lighter weeks (Iker, 2026-10-22)', () => {
@@ -134,7 +140,8 @@ test('mountain days by day, night runs in the park, the lighter weeks (Iker, 202
   }
   assert.match(dayOf('2026-11-17').title, /5 lần x 3 phút/, 'week 4 is lighter');
   assert.match(textOf(dayOf('2026-12-16')), /Buổi tập chân cuối cùng/);
-  assert.doesNotMatch(textOf(dayOf('2026-12-18')), /Nhón gót gối gập/, 'week 8 Friday: arms and core only');
+  assert.doesNotMatch(textOf(dayOf('2026-12-18')), /Nhón gót gối gập/, 'week 8 Friday: core only');
+  assert.match(dayOf('2026-12-18').title, /core \(nhẹ\)/);
   assert.match(textOf(dayOf('2026-11-12')), /2 chai nước/, 'backpack from week 3');
 });
 
@@ -208,7 +215,7 @@ test('a cramp makes the next training day lighter (Iker, 2026-10-22)', () => {
     assert.deepEqual(fri.am, { run: 20 });
   }
   assert.equal(P.expand(fri).why, fri.why, 'the reason is shown under the title');
-  assert.equal(P.expand(fri).title, 'Bài ở nhà B: tay chống gậy');
+  assert.equal(P.expand(fri).title, 'Bài ở nhà B: bắp chân và core');
   // a cramp on Sunday: Monday rests as always, Tuesday is lighter
   const c = ctx({ '2026-11-08': 'cramp' });
   assert.equal(R.generate('2026-11-09', c).why, undefined);
