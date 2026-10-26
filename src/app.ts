@@ -123,7 +123,7 @@ function renderDay(key: P.DayKey, todayKey: P.DayKey): void {
   let mark = '';
   if (st === 'out') {
     mark = `<p class="note-box">${key > todayKey ? 'Ngày này chưa có kế hoạch. Mỗi sáng kế hoạch được thêm một ngày.' : 'Ngày này không có trong kế hoạch.'}</p>`;
-  } else if (st === 'rest') mark = '<p class="note-box">Ngày nghỉ chạy. Không cần đánh dấu.</p>';
+  } else if (st === 'rest') mark = '<p class="note-box">Ngày nghỉ, không có bài tập. Không cần đánh dấu.</p>';
   else if (st === 'future') mark = '<p class="note-box">Chưa tới ngày này.</p>';
   else if (!state.loaded) mark = '<p class="muted">Đang tải…</p>';
   else if (st === 'done') {
@@ -207,7 +207,7 @@ function item(it: P.Item, id: string): string {
 }
 
 const STATE_LABEL: Record<P.State, string> = {
-  out: 'chưa có kế hoạch', rest: 'nghỉ chạy', done: 'đã tập', missed: 'chưa tập', open: 'hôm nay, chưa tập', future: 'sắp tới',
+  out: 'chưa có kế hoạch', rest: 'nghỉ, không tập', done: 'đã tập', missed: 'chưa tập', open: 'hôm nay, chưa tập', future: 'sắp tới',
 };
 
 const FEEL_ICON: Record<P.Feel, string> = { easy: '🙂', ok: '👌', hard: '😓', cramp: '🦵' };

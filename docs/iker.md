@@ -1,12 +1,15 @@
 # Iker, the runner
 
 What the plan knows about Iker, as of 22 October 2026. Iker asked on
-2026-10-22 to keep this in the repo, not in Alpha's memory. Height and weight
-are not here, because this repo is public.
+2026-10-22 to keep this in the repo, not in Alpha's memory. Iker said on
+2026-10-26 that weight, height and birth year may be public here.
 
 ## Level
 
-- 40 years old. Runs trail races at Núi Dinh most months, so the mountain is
+- Born in 1987: 39 years old in 2026 (40 in the Vietnamese way of counting).
+- Height: not given yet. Weight: not given yet. Ask Iker, then write them here
+  with the date.
+- Runs trail races at Núi Dinh most months, so the mountain is
   known ground.
 - Easy pace on flat road: 7:00 min/km. Best 5 km: about 5:15 min/km.
 - UTMB index 430 (50K 432, 20K 190), 32 finished races, best score 636.

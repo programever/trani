@@ -131,6 +131,9 @@ export function lighterWhy(date: P.DayKey, ctx: Ctx): string | null {
   for (let d = P.addDays(date, -1); prev.length < 2 && P.daysBetween(d, date) <= 4; d = P.addDays(d, -1)) {
     if (!isRest(d)) prev.push(d);
   }
+  // A rest day with core can be marked too (Iker, 2026-10-26). A cramp marked on it makes the next day lighter.
+  const yesterday = P.addDays(date, -1);
+  if (isRest(yesterday) && ctx.feels.get(yesterday) === 'cramp') return 'Hôm qua bạn ghi «chuột rút», nên hôm nay nhẹ hơn.';
   const [a, b] = prev;
   if (!a) return null;
   const fa = ctx.feels.get(a), fb = b ? ctx.feels.get(b) : undefined;

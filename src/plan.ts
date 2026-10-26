@@ -33,7 +33,7 @@ export interface Step { name: string; dose?: string; note?: string | readonly st
 export type Tag = 'eat' | 'train' | 'care';
 export interface Item { time: string; tag: Tag; text: string; note?: string; steps?: readonly Step[] }
 export interface Section { name: string; items: readonly Item[] }
-/** rest days and future days cannot be marked done. */
+/** rest: no running. A rest day with core can be marked done (Iker, 2026-10-26); one with no training cannot. */
 export type Kind = 'train' | 'rest' | 'race';
 /** why: one line under the title that says why the day is like this (for example lighter after a cramp). */
 export interface Day { kind: Kind; title: string; week: string; why?: string; sections: readonly Section[] }
@@ -619,7 +619,7 @@ export function expand(r: Recipe): Day {
 // ---------- the plan: the days that have a recipe ----------
 
 /**
- * out: no recipe for this day. rest: rest day. done: marked done.
+ * out: no recipe for this day. rest: a day with no training at all. done: marked done.
  * missed: in the past and not done. open: today and not done yet. future: later.
  */
 export type State = 'out' | 'rest' | 'done' | 'missed' | 'open' | 'future';
@@ -629,7 +629,7 @@ export interface Plan {
   readonly days: ReadonlyMap<DayKey, Day>;
   readonly recipes: ReadonlyMap<DayKey, Recipe>;
   dayOf(key: DayKey): Day | null;
-  /** A day can be marked done when it has a recipe, is not a rest day, and is not in the future. */
+  /** A day can be marked done when it has a recipe, has some training, and is not in the future. */
   canMark(key: DayKey, todayKey: DayKey): boolean;
   stateOf(key: DayKey, todayKey: DayKey, done: ReadonlySet<DayKey>): State;
   summary(todayKey: DayKey, done: ReadonlySet<DayKey>): Summary;
@@ -647,14 +647,14 @@ export function makePlan(recipes: readonly Recipe[]): Plan {
   const stateOf = (key: DayKey, todayKey: DayKey, done: ReadonlySet<DayKey>): State => {
     const d = days.get(key);
     if (!d) return 'out';
-    if (d.kind === 'rest') return 'rest';
+    if (!hasTraining(d)) return 'rest';
     if (key > todayKey) return 'future';
     if (done.has(key)) return 'done';
     return key < todayKey ? 'missed' : 'open';
   };
   return {
     days, recipes: byKey, dayOf, stateOf,
-    canMark: (key, todayKey) => { const d = days.get(key); return !!d && d.kind !== 'rest' && key <= todayKey; },
+    canMark: (key, todayKey) => { const d = days.get(key); return !!d && hasTraining(d) && key <= todayKey; },
     summary: (todayKey, done) => {
       let nDone = 0, nMissed = 0;
       for (const k of days.keys()) {
@@ -665,6 +665,13 @@ export function makePlan(recipes: readonly Recipe[]): Plan {
       return { done: nDone, missed: nMissed, daysToRace: daysBetween(todayKey, RACE) };
     },
   };
+}
+
+/** Iker, 2026-10-26: "Nghỉ chạy vẫn phải đánh dấu vì vẫn còn tập core." A day with any training item, a rest day
+ *  with core included, is marked done like any other day. Only a day with no training at all (the gear day before the
+ *  race) has nothing to mark. */
+export function hasTraining(d: Day): boolean {
+  return d.kind !== 'rest' || d.sections.some(s => s.items.some(i => i.tag === 'train'));
 }
 
 /** What a done day marks in Haba (Iker, 2026-10-21): "jog" when the day has running, "core" when it has core

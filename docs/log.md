@@ -10,8 +10,8 @@ the same day, then commit and push. The newest day is at the top. Write facts:
 what was planned, what Iker did, the numbers Iker sent, what went wrong, and
 what was decided.
 
-This repo is public. Do not write weight, height, or health problems that are
-not about training.
+This repo is public. Weight, height and birth year are fine here (Iker,
+2026-10-26). Do not write health problems that are not about training.
 
 The "done" and feel buttons on the page are saved in Firestore, not here. They
 are listed here only when Alpha copies them in.
@@ -19,6 +19,12 @@ are listed here only when Alpha copies them in.
 ---
 
 ## 2026-10-26 (Monday)
+
+- Iker: a Monday rest day still has core, so it must be markable. Changed the
+  same day: a Monday can now be marked done, it marks Core in Haba, and a
+  cramp marked on it makes Tuesday lighter. Only the gear day before the race
+  (25 December, no training at all) has nothing to mark.
+- Iker: weight, height and birth year (1987) may be public in this repo.
 
 - Plan: rest day from running. Core at home 15 minutes (3 sets), stretching
   15 minutes, foam roller before sleep.

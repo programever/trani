@@ -163,19 +163,24 @@ test('states and counts', () => {
   assert.equal(plan.stateOf('2026-12-28', today, done), 'out', 'after the race');
   assert.equal(plan.stateOf('2026-10-21', today, done), 'done');
   assert.equal(plan.stateOf('2026-10-23', today, done), 'missed', 'Friday is a training day');
-  assert.equal(plan.stateOf('2026-10-26', today, done), 'rest', 'a mark on a Monday is ignored');
+  assert.equal(plan.stateOf('2026-10-26', today, done), 'done', 'a Monday has core: it is marked like any day (Iker, 2026-10-26)');
+  assert.equal(plan.stateOf('2026-11-02', '2026-11-03', new Set()), 'missed', 'a Monday not done is missed');
+  assert.equal(plan.stateOf('2026-12-25', today, done), 'rest', 'the gear day has no training at all');
   assert.equal(plan.stateOf('2026-10-28', today, new Set()), 'open', 'today, not done yet');
   assert.equal(plan.stateOf('2026-10-29', today, done), 'future');
-  // 21 done, 22 23 24 missed, 25 done, 26 rest, 27 missed, 28 done
-  assert.deepEqual(plan.summary(today, done), { done: 3, missed: 4, daysToRace: 60 });
+  // 21 done, 22 23 24 missed, 25 26 done, 27 missed, 28 done
+  assert.deepEqual(plan.summary(today, done), { done: 4, missed: 4, daysToRace: 60 });
   assert.ok(plan.canMark('2026-10-22', today), 'a past day can still be marked');
   assert.ok(!plan.canMark('2026-10-29', today), 'not a future day');
-  assert.ok(!plan.canMark('2026-10-26', today), 'not a rest day');
+  assert.ok(plan.canMark('2026-10-26', today), 'a Monday with core can be marked');
+  assert.ok(!plan.canMark('2026-12-25', '2026-12-27'), 'not the gear day: nothing to train');
+  assert.ok(plan.canMark('2026-12-21', '2026-12-27'), 'the light core Monday of the race week can be marked');
+  assert.deepEqual(P.habaItems(dayOf('2026-10-26')), ['core'], 'a Monday marks Core in Haba, not Jogging');
   assert.ok(!plan.canMark('2026-10-20', today), 'not a day without a plan');
   // a plan of 8 days only knows those 8
   const small = P.makePlan(R.generateAll('2026-10-22', '2026-10-29'));
   assert.equal(small.stateOf('2026-10-30', today, done), 'out');
-  assert.equal(small.summary(today, done).done, 2);
+  assert.equal(small.summary(today, done).done, 3);
 });
 
 test('the days folder: every file is a good recipe of its date', () => {
@@ -210,6 +215,10 @@ test('a cramp makes the next training day lighter (Iker, 2026-10-22)', () => {
   const tue = R.generate('2026-11-10', c);
   assert.match(tue.why ?? '', /Buổi tập trước.*chuột rút/);
   if (tue.type === 'weekday') assert.deepEqual(tue.pm, { kind: 'intervals', reps: 6, work: 3 });
+  // a cramp marked on the Monday core makes Tuesday lighter (Iker, 2026-10-26); Monday "ok" keeps Sunday's cramp
+  assert.match(R.generate('2026-11-10', ctx({ '2026-11-09': 'cramp' })).why ?? '', /Hôm qua.*chuột rút/);
+  assert.match(R.generate('2026-11-10', ctx({ '2026-11-08': 'cramp', '2026-11-09': 'ok' })).why ?? '', /Buổi tập trước.*chuột rút/);
+  assert.equal(R.generate('2026-11-10', ctx({ '2026-11-09': 'ok' })).why, undefined);
   // "nặng" twice in a row; once is normal
   const thu = R.generate('2026-11-05', ctx({ '2026-11-03': 'hard', '2026-11-04': 'hard' }));
   assert.match(thu.why ?? '', /nặng/);

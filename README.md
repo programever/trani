@@ -37,7 +37,10 @@ diary. Alpha reads it first and writes every new event there the same day
   2026-10-22: to look back at what was trained; the 7-day list was removed the
   same day). Green means done, with a small sign for how it felt (🙂 easy,
   👌 ok, 😓 hard, 🦵 cramp). Grey with a dashed line means past and not done.
-  Blue means a rest day. A box with a border is a coming day that has its file
+  Blue means a day with no training at all (only the gear day before the race).
+  A Monday rest day has core, so it is marked done like any other day (Iker,
+  2026-10-26: "Nghỉ chạy vẫn phải đánh dấu vì vẫn còn tập core"), and it marks Core
+  in Haba. A box with a border is a coming day that has its file
   already (the next seven days); a faint box has none yet. Press a box to see
   that day. A past day keeps the file it was trained with, so the history is
   true.
