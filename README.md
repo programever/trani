@@ -8,6 +8,9 @@ The page is on GitHub Pages: https://programever.github.io/trani/
 
 The text on the page is in Vietnamese, like the plan. What the plan knows about
 Iker is in `docs/iker.md`; what it knows about the race is in `docs/race.md`.
+What really happened on each training day is in `docs/log.md`, the training
+diary. Alpha reads it first and writes every new event there the same day
+(Iker, 2026-10-26).
 
 ## The page
 
@@ -186,6 +189,7 @@ nothing is counted twice. The code is `src/haba-mark.ts`, a copy of
 |---|---|
 | `days/*.json` | One recipe per day: the plan itself. Written by `tools/next-day.ts`, or by hand (then `"locked": true`). |
 | `docs/iker.md`, `docs/race.md` | What the plan knows about Iker and about the race. |
+| `docs/log.md` | The training diary: what happened each day, newest first. Read it first, add to it the same day. |
 | `src/index.html` | The page. The tabs. |
 | `src/videos.ts` | One YouTube video per exercise, with what to look at. |
 | `src/style.css` | The look. Light and dark mode. |
