@@ -20,6 +20,12 @@ are listed here only when Alpha copies them in.
 
 ## 2026-10-26 (Monday)
 
+- Iker thinks the arm training for the poles (home session B, Fridays) is not
+  needed. Alpha mostly agreed and proposed: drop the six arm exercises, keep
+  the bent-knee calf raise and the core, maybe keep one poling exercise with
+  the band, and use the free time for the legs (the cramps). Waiting for
+  Iker's answer. Plan not changed yet.
+
 - Iker: a Monday rest day still has core, so it must be markable. Changed the
   same day: a Monday can now be marked done, it marks Core in Haba, and a
   cramp marked on it makes Tuesday lighter. Only the gear day before the race
