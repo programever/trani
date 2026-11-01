@@ -4,8 +4,7 @@
   "type": "weekday",
   "am": null,
   "pm": {
-    "kind": "steady",
-    "min": 40,
-    "pack": 0
+    "kind": "homeA",
+    "sets": 3
   }
 }

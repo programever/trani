@@ -455,7 +455,7 @@ function saturdayDay(week: string, min: number, mountainTomorrow: boolean): Day 
   };
 }
 
-/** An evening long run in the park, for a Sunday whose morning was lost (Iker, 2026-11-01). Tomorrow is a rest day. */
+/** An evening long run in the park, for a day that is not the normal long day (Iker, 2026-11-01). The next day is a rest day. */
 export function eveningLongDay(week: string, min: number, note: string): Day {
   return {
     kind: 'train', title: `Chạy dài ${dur(min)} buổi tối trong công viên`, week,

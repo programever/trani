@@ -1,92 +1,13 @@
 {
   "date": "2026-11-01",
   "week": "Tuần 1",
-  "type": "custom",
-  "day": {
-    "kind": "train",
-    "title": "Chạy dài 2 tiếng 30 phút buổi tối trong công viên",
-    "week": "Tuần 1",
-    "sections": [
-      {
-        "name": "Sáng",
-        "items": [
-          {
-            "time": "7:30",
-            "tag": "eat",
-            "text": "Ăn sáng vừa: nhiều tinh bột."
-          }
-        ]
-      },
-      {
-        "name": "Trưa",
-        "items": [
-          {
-            "time": "12:00",
-            "tag": "eat",
-            "text": "Ăn trưa vừa: nhiều tinh bột, có đạm."
-          }
-        ]
-      },
-      {
-        "name": "Tối",
-        "items": [
-          {
-            "time": "17:30",
-            "tag": "eat",
-            "text": "Ăn nhẹ: tinh bột dễ tiêu, ít dầu mỡ."
-          },
-          {
-            "time": "18:15",
-            "tag": "train",
-            "text": "Chạy dài 2 tiếng 30 phút trong công viên, mức dễ (Z2).",
-            "note": "Thay cho Núi Dinh hôm nay. Núi Dinh 4 tiếng dời sang Chủ nhật 8/11.",
-            "steps": [
-              {
-                "name": "Chạy đều mức dễ (Z2)",
-                "dose": "2 tiếng 30 phút",
-                "note": "Trời tối: mang đèn đội đầu. Không để nhịp tim lên Z4."
-              },
-              {
-                "name": "Ăn",
-                "dose": "mỗi 30 - 45 phút",
-                "note": "Một chút tinh bột dễ ăn, khoảng 60 g tinh bột mỗi giờ. Ăn ngay từ giờ đầu, như ngày đua."
-              },
-              {
-                "name": "Uống",
-                "dose": "400 - 600 ml mỗi giờ",
-                "note": "Uống theo cơn khát. 1 viên điện giải mỗi giờ, 2 viên khi trời nóng. Muối đều đặn giúp bớt chuột rút."
-              }
-            ]
-          },
-          {
-            "time": "Sau chạy",
-            "tag": "care",
-            "text": "Đi bộ và giãn cơ 5 - 10 phút trước khi đi xe máy về.",
-            "note": "Lần trước bị chuột rút khi ngồi xe máy về, chân gập lâu."
-          },
-          {
-            "time": "Sau chạy",
-            "tag": "eat",
-            "text": "Ngay sau khi chạy xong: ăn nhẹ, tinh bột và đạm.",
-            "note": "Ăn trong 30 phút sau buổi tập, để cơ hồi phục."
-          },
-          {
-            "time": "21:30",
-            "tag": "eat",
-            "text": "Ăn tối vừa: nhiều đạm, có tinh bột và rau."
-          },
-          {
-            "time": "22:15",
-            "tag": "care",
-            "text": "Lăn foam roller 10 phút: đùi trước, bắp chân, mặt ngoài đùi (IT Band)."
-          },
-          {
-            "time": "23:00",
-            "tag": "care",
-            "text": "Đi ngủ. Ngủ đủ 7 - 8 tiếng."
-          }
-        ]
-      }
-    ]
+  "type": "weekday",
+  "title": "Chạy dễ 4 km",
+  "am": null,
+  "pm": {
+    "kind": "run",
+    "min": 30,
+    "text": "Chạy dễ 4 km, khoảng 30 phút (Z2).",
+    "note": "Hôm nay ít thời gian. Chạy dài dời sang ngày mai."
   }
 }

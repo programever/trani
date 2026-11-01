@@ -32,6 +32,17 @@ are listed here only when Alpha copies them in.
   - Sunday 15 November stays Núi Dinh 5 hours, so two mountain Sundays in a row.
     Iker can still change this.
 
+- Changed again at about 18:30: Iker has no time today and can only run an easy
+  4 km. The long run is tomorrow instead. Next Sunday is still Núi Dinh, 4 hours.
+  - Today: easy 4 km.
+  - Monday 2 November: long easy run, 2 hours 30 minutes, set for the evening.
+  - Tuesday 3 November: rest from running, core at home.
+  - Wednesday 4 November: morning easy run 35 minutes, stair intervals in the
+    evening.
+  - Thursday 5 November: home session A only.
+  - Dropped this week: the steady stairs, and one morning run.
+  - Friday to Sunday as planned.
+
 ## 2026-10-26 (Monday)
 
 - Iker: no trial sessions in the future ("Tôi kg muốn thử"). The only one left

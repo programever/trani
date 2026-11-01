@@ -108,8 +108,8 @@ function special(date: P.DayKey): P.Recipe | null {
       am: { core: 2, text: 'Thử bài core ở nhà, khoảng 10 phút.', note: 'Lần đầu tập core: mỗi bài 2 hiệp, làm chậm và đúng.' },
       pm: { kind: 'steady', min: 30, pack: 0, easy: true } };
     case '2026-10-23': return { date, week: start, type: 'weekday', am: null, pm: { kind: 'trialAB' } };
-    case '2026-11-01': return { date, week: 'Tuần 1', type: 'custom',
-      day: P.eveningLongDay('Tuần 1', 150, 'Thay cho Núi Dinh hôm nay. Núi Dinh 4 tiếng dời sang Chủ nhật 8/11.') };
+    case '2026-11-01': return { date, week: 'Tuần 1', type: 'weekday', title: 'Chạy dễ 4 km', am: null,
+      pm: { kind: 'run', min: 30, text: 'Chạy dễ 4 km, khoảng 30 phút (Z2).', note: 'Hôm nay ít thời gian. Chạy dài dời sang ngày mai.' } };
     case '2026-12-21': return { date, week: raceWeek, type: 'rest', coreSets: 2 };
     case '2026-12-22': return { date, week: raceWeek, type: 'weekday', title: 'Chạy dễ 40 phút, có leo dốc nhẹ', am: null,
       pm: { kind: 'run', min: 40, text: 'Chạy dễ 40 phút, trong đó có 4 lần x 2 phút leo dốc ở mức vừa (Z3).',
@@ -175,6 +175,22 @@ export function soften(r: P.Recipe, why: string): P.Recipe {
   }
 }
 
+/**
+ * The week of 2 Nov, changed by Iker on 2026-11-01: only 4 km on Sunday, so the long run is on Monday. Tuesday is the
+ * rest day, the stair intervals and home session A come one day later, and Thursday's steady stairs and the Thursday
+ * morning run are dropped, because the week also has the mountain on Sunday. Friday to Sunday follow the normal rules.
+ */
+function movedDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
+  switch (date) {
+    case '2026-11-02': return { date, week, type: 'custom',
+      day: P.eveningLongDay(week, 150, 'Dời từ Chủ nhật. Giờ có thể đổi, nhưng giữ mức dễ. Ngày mai nghỉ.') };
+    case '2026-11-03': return { date, week, type: 'rest', coreSets: w.sets };
+    case '2026-11-04': return { date, week, type: 'weekday', am: { run: w.amMin }, pm: { kind: 'intervals', reps: w.reps, work: w.work } };
+    case '2026-11-05': return { date, week, type: 'weekday', am: null, pm: { kind: 'homeA', sets: w.sets } };
+    default: return null;
+  }
+}
+
 /** The recipe of one date. */
 export function generate(date: P.DayKey, ctx: Ctx = EMPTY): P.Recipe {
   const sp = special(date);
@@ -183,8 +199,10 @@ export function generate(date: P.DayKey, ctx: Ctx = EMPTY): P.Recipe {
   const wd = P.weekday(date);
   const am: P.Am = w.am.includes(wd) ? { run: w.amMin } : null;
   const base = { date, week: w.label };
+  const moved = movedDay(date, w.label, w);
   let r: P.Recipe;
-  switch (wd) {
+  if (moved) r = moved;
+  else switch (wd) {
     case 0: r = { ...base, type: 'rest', coreSets: 3 }; break;
     case 1: r = { ...base, type: 'weekday', am, pm: { kind: 'intervals', reps: w.reps, work: w.work } }; break;
     case 2: r = w.lastLegs

@@ -6,7 +6,8 @@
     "run": 35
   },
   "pm": {
-    "kind": "homeA",
-    "sets": 3
+    "kind": "intervals",
+    "reps": 7,
+    "work": 3
   }
 }
