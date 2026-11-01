@@ -67,8 +67,8 @@ test('meals only say light or heavy, carbs or protein, never a dish (Iker, 2026-
 
 test('no gym: everything is done at home (Iker, 2026-10-21)', () => {
   for (const k of allDays()) assert.doesNotMatch(textOf(dayOf(k)), /gym|máy chạy/i, k);
-  assert.match(dayOf('2026-11-07').title, /Chạy có dốc 2 tiếng/, 'Saturday week 2');
-  assert.match(dayOf('2026-11-08').title, /Chạy dài 3 tiếng/, 'Sunday week 2');
+  assert.match(dayOf('2026-11-07').title, /Chạy có dốc 1 tiếng 30 phút|Chạy có dốc 90 phút/, 'Saturday week 2, shorter before the mountain');
+  assert.match(dayOf('2026-11-08').title, /Núi Dinh 4 tiếng/, 'Sunday week 2: moved from 1 Nov (Iker, 2026-11-01)');
   // morning runs: week 2 on Tuesday, Wednesday and Friday, never on Thursday
   const amRun = (k: string): boolean => dayOf(k).sections[0]!.items.some(i => i.tag === 'train');
   assert.deepEqual(['2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06'].map(amRun), [false, true, true, false, true]);
@@ -123,7 +123,7 @@ test('the normal week', () => {
 });
 
 test('mountain days by day, night runs in the park, the lighter weeks (Iker, 2026-10-22)', () => {
-  for (const k of ['2026-11-01', '2026-11-15', '2026-12-06']) {
+  for (const k of ['2026-11-08', '2026-11-15', '2026-12-06']) {
     const d = dayOf(k);
     assert.match(d.title, /Núi Dinh/, k);
     assert.equal(d.sections[0]!.items.find(i => i.tag === 'train')?.time, '6:00', `${k}: the mountain only by day`);
@@ -131,7 +131,11 @@ test('mountain days by day, night runs in the park, the lighter weeks (Iker, 202
   }
   // Iker, 2026-10-26: no trial sessions in the future. Only the two past trial days (22 and 23 Oct) keep the word.
   for (const [k, d] of plan.days) if (k > '2026-10-26') assert.doesNotMatch(textOf(d), /[Tt]ập thử|[Tt]hử bài|rehearsal/, k);
-  assert.match(textOf(dayOf('2026-10-31')), /Gậy, ba lô/, 'Saturday before a mountain day: get the gear ready');
+  assert.match(textOf(dayOf('2026-11-07')), /Gậy, ba lô/, 'Saturday before a mountain day: get the gear ready');
+  const evening = dayOf('2026-11-01');   // Iker, 2026-11-01: could not go to the mountain
+  assert.match(evening.title, /buổi tối trong công viên/);
+  assert.doesNotMatch(evening.title, /Núi Dinh/);
+  assert.deepEqual(P.habaItems(evening), ['jog'], 'the evening run marks Jogging in Haba');
   for (const k of ['2026-11-29', '2026-12-13']) {
     const d = dayOf(k);
     assert.match(d.title, /trong đêm/, k);
@@ -235,9 +239,9 @@ test('a cramp makes the next training day lighter (Iker, 2026-10-22)', () => {
   assert.equal(R.generate('2026-11-05', ctx({ '2026-11-03': 'ok', '2026-11-04': 'easy' })).why, undefined);
   // runs get shorter; a mountain day keeps its hours but asks for care
   const sat = R.generate('2026-11-07', ctx({ '2026-11-06': 'cramp' }));
-  if (sat.type === 'saturday') assert.equal(sat.min, 80);
-  const sun = R.generate('2026-11-08', ctx({ '2026-11-07': 'cramp' }));
-  if (sun.type === 'sunday') assert.deepEqual(sun.sun, { long: 135 });
+  if (sat.type === 'saturday') assert.equal(sat.min, 60);
+  const sun = R.generate('2026-11-22', ctx({ '2026-11-21': 'cramp' }));
+  if (sun.type === 'sunday') assert.deepEqual(sun.sun, { long: 120 });
   const mtn = R.generate('2026-11-15', ctx({ '2026-11-14': 'cramp' }));
   if (mtn.type === 'sunday') assert.deepEqual(mtn.sun, { mountain: '5 tiếng' });
   assert.match(mtn.why ?? '', /uống muối/);

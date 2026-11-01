@@ -4,7 +4,8 @@
 // rewrite any day by hand with Iker (locked: true keeps it). No browser things, so the tests can check every date.
 //
 // The weeks (Iker, 2026-10-21): a start week, weeks 1-3 build up, week 4 lighter, weeks 5-7 build up, week 8 and
-// the race week lighter. Núi Dinh by day on Sunday 1 Nov, 15 Nov and 6 Dec. No trial sessions (Iker, 2026-10-26). Two long runs in the
+// the race week lighter. Núi Dinh by day on Sunday 8 Nov, 15 Nov and 6 Dec
+// (Iker, 2026-11-01: could not go on 1 Nov, so that day became an evening run and the 4 hours moved to 8 Nov). No trial sessions (Iker, 2026-10-26). Two long runs in the
 // park at night (29 Nov, 13 Dec), like the 02:00 start of the race; never on the mountain at night (Iker, 2026-10-22).
 // Cramps came at about hour 5 in both slow races (Iker, 2026-10-22), so a day marked "chuột rút" makes the next
 // training day lighter, and "nặng" twice in a row does the same.
@@ -35,7 +36,8 @@ const WEEKS: readonly Week[] = [
   { label: 'Tuần bắt đầu', am: [], amMin: 0, reps: 0, work: 0, steady: 30, pack: 0, sets: 2, sat: 90, sun: { long: 150 } },
   { label: 'Tuần 1', am: [1, 4], amMin: 30, reps: 6, work: 3, steady: 35, pack: 0, sets: 3, sat: 90,
     sun: { mountain: '4 tiếng' }, homeNote: 'Tuần đầu: tập nhẹ, chú ý làm đúng động tác.' },
-  { label: 'Tuần 2', am: [1, 2, 4], amMin: 35, reps: 7, work: 3, steady: 40, pack: 0, sets: 3, sat: 120, sun: { long: 180 } },
+  { label: 'Tuần 2', am: [1, 2, 4], amMin: 35, reps: 7, work: 3, steady: 40, pack: 0, sets: 3, sat: 90,
+    sun: { mountain: '4 tiếng' } },
   { label: 'Tuần 3', am: [1, 2, 4], amMin: 40, reps: 8, work: 3, steady: 45, pack: 2, sets: 3, sat: 90,
     sun: { mountain: '5 tiếng' } },
   { label: 'Tuần 4 · tuần nhẹ', am: [1, 4], amMin: 30, reps: 5, work: 3, steady: 30, pack: 2, sets: 2, sat: 90,
@@ -106,6 +108,8 @@ function special(date: P.DayKey): P.Recipe | null {
       am: { core: 2, text: 'Thử bài core ở nhà, khoảng 10 phút.', note: 'Lần đầu tập core: mỗi bài 2 hiệp, làm chậm và đúng.' },
       pm: { kind: 'steady', min: 30, pack: 0, easy: true } };
     case '2026-10-23': return { date, week: start, type: 'weekday', am: null, pm: { kind: 'trialAB' } };
+    case '2026-11-01': return { date, week: 'Tuần 1', type: 'custom',
+      day: P.eveningLongDay('Tuần 1', 150, 'Thay cho Núi Dinh hôm nay. Núi Dinh 4 tiếng dời sang Chủ nhật 8/11.') };
     case '2026-12-21': return { date, week: raceWeek, type: 'rest', coreSets: 2 };
     case '2026-12-22': return { date, week: raceWeek, type: 'weekday', title: 'Chạy dễ 40 phút, có leo dốc nhẹ', am: null,
       pm: { kind: 'run', min: 40, text: 'Chạy dễ 40 phút, trong đó có 4 lần x 2 phút leo dốc ở mức vừa (Z3).',

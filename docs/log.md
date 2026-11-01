@@ -18,6 +18,20 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-01 (Sunday)
+
+- Plan: Núi Dinh by day, 4 hours. Iker could not go.
+- Iker asked for another plan and said they will go to Núi Dinh next weekend.
+  Decided at about 17:30:
+  - Today: long easy run in the park in the evening, 2 hours 30 minutes, from
+    18:15. Walk and stretch before riding home, because of the cramp on the
+    motorbike on 25 October.
+  - Sunday 8 November: Núi Dinh 4 hours, in place of the 3-hour long run.
+  - Saturday 7 November: 90 minutes instead of 120, as before other mountain
+    days.
+  - Sunday 15 November stays Núi Dinh 5 hours, so two mountain Sundays in a row.
+    Iker can still change this.
+
 ## 2026-10-26 (Monday)
 
 - Iker: no trial sessions in the future ("Tôi kg muốn thử"). The only one left

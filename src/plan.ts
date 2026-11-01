@@ -455,6 +455,28 @@ function saturdayDay(week: string, min: number, mountainTomorrow: boolean): Day 
   };
 }
 
+/** An evening long run in the park, for a Sunday whose morning was lost (Iker, 2026-11-01). Tomorrow is a rest day. */
+export function eveningLongDay(week: string, min: number, note: string): Day {
+  return {
+    kind: 'train', title: `Chạy dài ${dur(min)} buổi tối trong công viên`, week,
+    sections: [
+      { name: 'Sáng', items: [eat('7:30', 'Ăn sáng vừa: nhiều tinh bột.')] },
+      { name: 'Trưa', items: [eat('12:00', 'Ăn trưa vừa: nhiều tinh bột, có đạm.')] },
+      { name: 'Tối', items: [
+      eat('17:30', 'Ăn nhẹ: tinh bột dễ tiêu, ít dầu mỡ.'),
+      { time: '18:15', tag: 'train', text: `Chạy dài ${dur(min)} trong công viên, mức dễ (Z2).`, note,
+        steps: [{ name: 'Chạy đều mức dễ (Z2)', dose: dur(min), note: 'Trời tối: mang đèn đội đầu. Không để nhịp tim lên Z4.' }, ...EAT_DRINK] },
+      { time: 'Sau chạy', tag: 'care', text: 'Đi bộ và giãn cơ 5 - 10 phút trước khi đi xe máy về.',
+        note: 'Lần trước bị chuột rút khi ngồi xe máy về, chân gập lâu.' },
+      recovery,
+      eat('21:30', 'Ăn tối vừa: nhiều đạm, có tinh bột và rau.'),
+      rollout('22:15'),
+      sleep('23:00'),
+      ] },
+    ],
+  };
+}
+
 function sundayDay(week: string, s: Sunday): Day {
   const isLong = 'long' in s;
   let morning: Item[], title: string;

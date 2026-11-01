@@ -2,6 +2,6 @@
   "date": "2026-11-07",
   "week": "Tuần 2",
   "type": "saturday",
-  "min": 120,
-  "mountainTomorrow": false
+  "min": 90,
+  "mountainTomorrow": true
 }

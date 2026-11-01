@@ -93,7 +93,8 @@ Iker's rules for the plan:
   bands, one short and one long. No gym, no treadmill (Iker, 2026-10-21).
 - Free times: weekdays 07:30-08:15 and 17:45-18:45, Saturday 17:00-19:00, and
   Sunday for the long run or Núi Dinh.
-- Núi Dinh only by day: Sunday 1 Nov, 15 Nov and 6 Dec.
+- Núi Dinh only by day: Sunday 8 Nov, 15 Nov and 6 Dec. The day of 1 Nov moved to
+  8 Nov (Iker, 2026-11-01).
 - No trial sessions ("tập thử") in the future: Iker, 2026-10-26, "Tôi kg muốn thử".
   Do not add one. The two trial days of 22 and 23 October stay as history.
   No night training on the mountain (Iker, 2026-10-22). Two long runs in the
