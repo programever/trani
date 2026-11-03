@@ -18,6 +18,13 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-02 (Monday)
+
+- Plan: long easy run in the evening, 2 hours 30 minutes (moved from Sunday).
+- Done instead: easy jogging, 20 minutes. Iker told Alpha on 2026-11-03.
+  Marked done with the feel "Dễ" (easy) by Alpha, at Iker's request.
+- The long run was not done. Nothing else in the plan was changed.
+
 ## 2026-11-01 (Sunday)
 
 - Plan: Núi Dinh by day, 4 hours. Iker could not go.
