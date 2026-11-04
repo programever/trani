@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-12",
+  "week": "Tuần 3",
+  "type": "weekday",
+  "am": null,
+  "pm": {
+    "kind": "steady",
+    "min": 45,
+    "pack": 2
+  }
+}
