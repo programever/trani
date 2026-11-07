@@ -18,6 +18,21 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-07 (Saturday)
+
+- Plan: 90 minutes (the shorter Saturday before a mountain day).
+- Done instead: stairs, 20 minutes only. It felt easy. Iker told Alpha the
+  same day. Marked done with the feel "Dễ" (easy) by Alpha, at Iker's request.
+  No Haba mark, because there was no running and no core.
+- Iker is thinking about the "Là Mía - cung Cam" route at Núi Dinh for
+  Sunday 8 November (GPX file from the Paco app): about 20 km and about
+  1,200 m of climb, highest point Đỉnh Sân Bay (466 m). Most of the climb is
+  between Chùa Như Lâm (km 5.5) and Đỉnh Sân Bay (km 12), about 800 m. No shop
+  from km 5.5 to km 14.4. Alpha's guess for Iker: about 3 hours 45 minutes at
+  a good race pace, about 4 hours 45 minutes to 5 hours 15 minutes at an easy
+  training pace. The plan for Sunday (Núi Dinh, 4 hours) is not changed yet;
+  Alpha asked Iker first.
+
 ## 2026-11-02 (Monday)
 
 - Plan: long easy run in the evening, 2 hours 30 minutes (moved from Sunday).
