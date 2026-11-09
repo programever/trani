@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-13",
+  "week": "Tuần 3",
+  "type": "weekday",
+  "am": {
+    "run": 40
+  },
+  "pm": {
+    "kind": "homeB",
+    "sets": 3,
+    "legs": true
+  }
+}
