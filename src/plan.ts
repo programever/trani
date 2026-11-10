@@ -118,15 +118,18 @@ export type Pm =
   | { kind: 'trialAB' };
 /** The morning of a weekday: an easy run (minutes), core at home, or nothing. */
 export type Am = { run: number } | { core: number; text: string; note?: string } | null;
-/** Sunday: a long run in the city (night: in the park from 03:00 with the headlamp), or Núi Dinh by day. */
-export type Sunday = { long: number; night?: boolean } | { mountain: string };
+/**
+ * Sunday: a long run in the city (night: in the park from 03:00 with the headlamp), or Núi Dinh by day, or a road
+ * marathon from 03:00 run easy as training (minutes: about how long it takes; Iker, 2026-11-10).
+ */
+export type Sunday = { long: number; night?: boolean } | { mountain: string } | { marathon: number };
 
 /** week: the label over the title. why: one line under the title. locked: the daily job never rewrites it. */
 interface Base { date: DayKey; week: string; why?: string; locked?: boolean }
 export type Recipe =
   | (Base & { type: 'rest'; coreSets: number; title?: string })
   | (Base & { type: 'weekday'; title?: string; am: Am; pm: Pm })
-  | (Base & { type: 'saturday'; min: number; mountainTomorrow: boolean })
+  | (Base & { type: 'saturday'; min: number; mountainTomorrow: boolean; early?: boolean })
   | (Base & { type: 'sunday'; sun: Sunday })
   | (Base & { type: 'race' })
   | (Base & { type: 'custom'; day: Day });
@@ -455,6 +458,41 @@ function saturdayDay(week: string, min: number, mountainTomorrow: boolean): Day 
   };
 }
 
+/**
+ * The Saturday before a Sunday that starts at 03:00 (a night run or a marathon): only 20 - 30 minutes very easy, and
+ * sleep early (Iker, 2026-11-10: 2 hours on Saturday evening is too much before a 03:00 start).
+ */
+function earlySaturdayDay(week: string): Day {
+  return {
+    kind: 'train', title: 'Chạy rất nhẹ 20 - 30 phút. Ngủ sớm.', week,
+    sections: [
+      { name: 'Sáng', items: [wake('7:00'), eat('7:30', 'Ăn sáng vừa: tinh bột và đạm.'),
+        { time: '9:00', tag: 'care', text: 'Buổi sáng nghỉ. Đi bộ nhẹ nếu muốn.' }] },
+      { name: 'Trưa', items: [eat('12:00', 'Ăn trưa vừa: nhiều tinh bột, có đạm và rau.'),
+        { time: '13:00', tag: 'care', text: 'Ngủ trưa 1 tiếng, nếu được.', note: 'Đêm nay ngủ ít, nên ngủ bù từ trưa.' }] },
+      { name: 'Tối', items: [
+        { time: '17:00', tag: 'train', text: 'Chạy rất nhẹ 20 - 30 phút, đường bằng (Z1 - Z2).',
+          note: 'Không leo dốc, không chạy nhanh. Chỉ để chân không cứng. Ngày mai bắt đầu lúc 3 giờ sáng.' },
+        eat('17:45', 'Ăn tối sớm, vừa: nhiều tinh bột, ít rau, ít dầu mỡ.', 'Món quen. Không thử món mới.'),
+        { time: '18:30', tag: 'care', text: 'Chuẩn bị đồ cho ngày mai.',
+          note: 'Đèn đội đầu sạc đầy, nước, đồ ăn khi chạy, viên điện giải, đồng hồ sạc đầy. Soạn sẵn đồ mặc.' },
+        { time: '19:30', tag: 'care', text: 'Đi ngủ sớm.', note: 'Ngủ được 5 - 6 tiếng là tốt. Không ngủ được cũng không sao: nằm nghỉ, nhắm mắt.' },
+      ] },
+    ],
+  };
+}
+
+/** A road marathon from 03:00, run easy as training, not raced (Iker, 2026-11-10: about 7:00 - 7:30 per km, about 5 hours). */
+const marathon = (min: number): Item => ({
+  time: '3:00', tag: 'train',
+  text: `Chạy marathon 42 km trên đường, mức dễ: khoảng 7:00 - 7:30 phút mỗi km, khoảng ${dur(min)}.`,
+  note: 'Không đua. Đây là một buổi tập dài: tập ăn và uống muối mỗi giờ, như ngày đua.',
+  steps: [
+    { name: 'Chạy đều mức dễ (Z2)', dose: '7:00 - 7:30 phút/km', note: 'Không chạy theo người khác. Không để nhịp tim lên Z4. Nửa đầu chậm. Cuối đường còn khỏe cũng vẫn giữ mức dễ.' },
+    ...EAT_DRINK,
+  ],
+});
+
 /** An evening long run in the park, for a day that is not the normal long day (Iker, 2026-11-01). The next day is a rest day. */
 export function eveningLongDay(week: string, min: number, note: string): Day {
   return {
@@ -478,15 +516,22 @@ export function eveningLongDay(week: string, min: number, note: string): Day {
 }
 
 function sundayDay(week: string, s: Sunday): Day {
-  const isLong = 'long' in s;
+  const isLong = !('mountain' in s);
   let morning: Item[], title: string;
-  if (!('long' in s)) {
+  if ('marathon' in s) {
+    morning = [{ time: '1:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Tối hôm trước đi ngủ lúc 19:30. Giờ có thể đổi tùy đường đi.' },
+      eat('1:15', 'Ăn sáng nhẹ: tinh bột dễ tiêu, ít dầu mỡ, món quen.'), marathon(s.marathon),
+      { time: 'Sau chạy', tag: 'care', text: 'Đi bộ và giãn cơ 5 - 10 phút trước khi đi xe máy về.',
+        note: 'Lần trước bị chuột rút khi ngồi xe máy về, chân gập lâu.' },
+      recovery];
+    title = 'Marathon 42 km, chạy dễ (không đua)';
+  } else if ('mountain' in s) {
     morning = [{ time: '4:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Giờ có thể đổi tùy đường đi. Bắt đầu chạy lúc trời vừa sáng.' },
       eat('4:15', 'Ăn sáng vừa: nhiều tinh bột, ít dầu mỡ. Ăn trên xe cũng được.', 'Ăn 1,5 - 2 tiếng trước khi bắt đầu chạy.'),
       mountain(s.mountain), recovery];
     title = `Núi Dinh ${s.mountain}`;
   } else if (s.night) {
-    morning = [{ time: '2:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Tối hôm trước đi ngủ lúc 20:00. Đèn đội đầu sạc đầy.' },
+    morning = [{ time: '2:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Tối hôm trước đi ngủ lúc 19:30. Đèn đội đầu sạc đầy.' },
       eat('2:15', 'Ăn sáng nhẹ: tinh bột dễ tiêu, ít dầu mỡ.'), longRun(s.long, true), recovery];
     title = `Chạy dài ${dur(s.long)} trong đêm`;
   } else {
@@ -589,7 +634,7 @@ export function expand(r: Recipe): Day {
       day = weekdayDay(r.week, r.title ?? titleOf(r.pm), pmItem(r.pm, r.date), am);
       break;
     }
-    case 'saturday': day = saturdayDay(r.week, r.min, r.mountainTomorrow); break;
+    case 'saturday': day = r.early ? earlySaturdayDay(r.week) : saturdayDay(r.week, r.min, r.mountainTomorrow); break;
     case 'sunday': day = sundayDay(r.week, r.sun); break;
     case 'race': day = raceDay(); break;
     case 'custom': day = r.day; break;

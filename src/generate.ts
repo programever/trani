@@ -4,9 +4,12 @@
 // rewrite any day by hand with Iker (locked: true keeps it). No browser things, so the tests can check every date.
 //
 // The weeks (Iker, 2026-10-21): a start week, weeks 1-3 build up, week 4 lighter, weeks 5-7 build up, week 8 and
-// the race week lighter. Núi Dinh by day on Sunday 8 Nov, 15 Nov and 6 Dec
-// (Iker, 2026-11-01: could not go on 1 Nov, so that day became an evening run and the 4 hours moved to 8 Nov). No trial sessions (Iker, 2026-10-26). Two long runs in the
-// park at night (29 Nov, 13 Dec), like the 02:00 start of the race; never on the mountain at night (Iker, 2026-10-22).
+// the race week lighter. Núi Dinh by day on Sunday 8 Nov, 22 Nov and 6 Dec
+// (Iker, 2026-11-01: could not go on 1 Nov, so that day became an evening run and the 4 hours moved to 8 Nov.
+// Iker, 2026-11-10: 15 Nov is a long run in the city, the mountain moves to 22 Nov). No trial sessions (Iker,
+// 2026-10-26). Two Sundays start at 03:00, like the 02:00 start of the race: a road marathon run easy on 29 Nov
+// (Iker, 2026-11-10, in place of the night run in the park) and a long run in the park on 13 Dec. The Saturday
+// before a 03:00 start is always short. Never on the mountain at night (Iker, 2026-10-22).
 // Cramps came at about hour 5 in both slow races (Iker, 2026-10-22), so a day marked "chuột rút" makes the next
 // training day lighter, and "nặng" twice in a row does the same.
 
@@ -39,16 +42,16 @@ const WEEKS: readonly Week[] = [
   { label: 'Tuần 2', am: [1, 2, 4], amMin: 35, reps: 7, work: 3, steady: 40, pack: 0, sets: 3, sat: 90,
     sun: { mountain: '4 tiếng' } },
   { label: 'Tuần 3', am: [1, 2, 4], amMin: 40, reps: 8, work: 3, steady: 45, pack: 2, sets: 3, sat: 90,
-    sun: { mountain: '5 tiếng' } },
+    sun: { long: 150 } },
   { label: 'Tuần 4 · tuần nhẹ', am: [1, 4], amMin: 30, reps: 5, work: 3, steady: 30, pack: 2, sets: 2, sat: 90,
-    sun: { long: 150 }, homeNote: 'Tuần nhẹ: mỗi bài bớt 1 hiệp.' },
-  { label: 'Tuần 5', am: [1, 2, 4], amMin: 40, reps: 6, work: 4, steady: 45, pack: 3, sets: 3, sat: 120, sun: { long: 210, night: true } },
+    sun: { mountain: '5 tiếng' }, homeNote: 'Tuần nhẹ: mỗi bài bớt 1 hiệp.' },
+  { label: 'Tuần 5', am: [1, 2, 4], amMin: 40, reps: 6, work: 4, steady: 45, pack: 3, sets: 3, sat: 25, sun: { marathon: 300 } },
   { label: 'Tuần 6', am: [1, 2, 4], amMin: 40, reps: 7, work: 4, steady: 50, pack: 3, sets: 3, sat: 60,
     sun: { mountain: '6 - 7 tiếng' } },
-  { label: 'Tuần 7 · tuần nặng nhất', am: [1, 2, 4], amMin: 40, reps: 8, work: 4, steady: 50, pack: 3, sets: 3, sat: 120,
+  { label: 'Tuần 7 · tuần nặng nhất', am: [1, 2, 4], amMin: 40, reps: 8, work: 4, steady: 50, pack: 3, sets: 3, sat: 25,
     sun: { long: 180, night: true } },
   { label: 'Tuần 8 · bắt đầu giảm', am: [1, 4], amMin: 30, reps: 5, work: 3, steady: 30, pack: 0, sets: 2, sat: 60,
-    sun: { long: 120 }, lastLegs: true },
+    sun: { long: 90 }, lastLegs: true },
   { label: 'Tuần đua', am: [], amMin: 0, reps: 0, work: 0, steady: 0, pack: 0, sets: 2, sat: 0, sun: { long: 0 } },
 ];
 
@@ -167,9 +170,10 @@ export function soften(r: P.Recipe, why: string): P.Recipe {
       const am: P.Am = r.am && 'run' in r.am ? (r.am.run - 10 >= 20 ? { run: r.am.run - 10 } : null) : r.am;
       return { ...r, why, am, pm: softenPm(r.pm) };
     }
-    case 'saturday': return { ...r, why, min: down(r.min, 0.7, 10, 40) };
+    case 'saturday': return r.early ? { ...r, why } : { ...r, why, min: down(r.min, 0.7, 10, 40) };
     case 'sunday': return 'long' in r.sun
       ? { ...r, why, sun: { ...r.sun, long: down(r.sun.long, 0.75, 15, 60) } }
+      : 'marathon' in r.sun ? { ...r, why: why + ' Chạy chậm hơn, đi bộ khi cần, uống muối mỗi giờ. Dừng nếu chuột rút.' }
       : { ...r, why: why + ' Leo chậm, bước ngắn, uống muối mỗi giờ.' };
     default: return r;   // rest, race, custom: unchanged
   }
@@ -191,6 +195,33 @@ function movedDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
   }
 }
 
+/**
+ * The days around the three hard Sundays (mountain 22 Nov, marathon 29 Nov, mountain 6 Dec), changed by Iker on
+ * 2026-11-10: Friday before the marathon is core only (no calf work), and the Tuesday after it is an easy run with no
+ * stair intervals, and Wednesday has one set less.
+ */
+function hardSundayDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
+  switch (date) {
+    case '2026-11-27': return { date, week, type: 'weekday', am: null,
+      pm: { kind: 'homeB', sets: w.sets, legs: false, note: 'Chủ nhật chạy marathon: hôm nay chỉ core, không tập bắp chân, không tập nặng.' } };
+    case '2026-12-01': return { date, week, type: 'weekday', title: 'Chạy dễ 30 phút', am: null,
+      pm: { kind: 'run', min: 30, note: 'Hai ngày sau marathon: chỉ chạy dễ, không leo cầu thang biến tốc.' } };
+    case '2026-12-02': return { date, week, type: 'weekday', am: { run: w.amMin },
+      pm: { kind: 'homeA', sets: w.sets - 1, note: 'Tuần sau marathon: mỗi bài bớt 1 hiệp.' } };
+    default: return null;
+  }
+}
+
+/**
+ * The days Iker changed by hand on 2026-11-10. Their files are written locked, so the daily job never changes them
+ * again. A day that is not written yet still gets lighter after a cramp the day before, on the morning it is written.
+ */
+const LOCKED: ReadonlySet<P.DayKey> = new Set(['2026-11-15', '2026-11-21', '2026-11-22', '2026-11-27', '2026-11-28',
+  '2026-11-29', '2026-12-01', '2026-12-02', '2026-12-05', '2026-12-06', '2026-12-12', '2026-12-20']);
+
+/** The Sunday recipe of a week starts at 03:00: a night run in the park or a marathon. */
+const earlySunday = (s: P.Sunday): boolean => 'marathon' in s || ('long' in s && !!s.night);
+
 /** The recipe of one date. */
 export function generate(date: P.DayKey, ctx: Ctx = EMPTY): P.Recipe {
   const sp = special(date);
@@ -199,7 +230,7 @@ export function generate(date: P.DayKey, ctx: Ctx = EMPTY): P.Recipe {
   const wd = P.weekday(date);
   const am: P.Am = w.am.includes(wd) ? { run: w.amMin } : null;
   const base = { date, week: w.label };
-  const moved = movedDay(date, w.label, w);
+  const moved = movedDay(date, w.label, w) ?? hardSundayDay(date, w.label, w);
   let r: P.Recipe;
   if (moved) r = moved;
   else switch (wd) {
@@ -213,11 +244,14 @@ export function generate(date: P.DayKey, ctx: Ctx = EMPTY): P.Recipe {
     case 4: r = { ...base, type: 'weekday', am, pm: w.homeNote
       ? { kind: 'homeB', sets: w.sets, legs: !w.lastLegs, note: w.homeNote } : { kind: 'homeB', sets: w.sets, legs: !w.lastLegs } };
       break;
-    case 5: r = { ...base, type: 'saturday', min: w.sat, mountainTomorrow: 'mountain' in w.sun }; break;
+    // The Saturday before a 03:00 start is always short (Iker, 2026-11-10).
+    case 5: r = earlySunday(w.sun) ? { ...base, type: 'saturday', min: 25, mountainTomorrow: false, early: true }
+      : { ...base, type: 'saturday', min: w.sat, mountainTomorrow: 'mountain' in w.sun }; break;
     default: r = { ...base, type: 'sunday', sun: w.sun };
   }
   const why = lighterWhy(date, ctx);
-  return why ? soften(r, why) : r;
+  if (why) r = soften(r, why);
+  return LOCKED.has(date) ? { ...r, locked: true } : r;
 }
 
 /** The recipes of every date from `from` to `to` (never past the race). */

@@ -3,6 +3,7 @@
   "week": "Tuần 3",
   "type": "sunday",
   "sun": {
-    "mountain": "5 tiếng"
-  }
+    "long": 150
+  },
+  "locked": true
 }

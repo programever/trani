@@ -3,5 +3,5 @@
   "week": "Tuần 3",
   "type": "saturday",
   "min": 90,
-  "mountainTomorrow": true
+  "mountainTomorrow": false
 }

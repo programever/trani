@@ -18,6 +18,41 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-10 (Tuesday)
+
+- Today is already marked done on the page, with the feel "Dễ" (easy).
+- Iker changed the plan from today to the race, after a review with Mega.
+  Alpha made the changes the same day:
+  - Sunday 15 November: no Núi Dinh. A long easy run in the city, 2 hours 30
+    minutes, instead.
+  - Sunday 22 November: Núi Dinh by day, 5 hours (moved from 15 November).
+    The weekdays of that week stay light (week 4). Saturday 21 November is the
+    shorter Saturday before a mountain day (90 minutes).
+  - Sunday 29 November: a full marathon on the road, start at 3 AM. It replaces
+    the night run in the park. Iker will run it easy, not race it: about
+    7:00-7:30 minutes per km, about 5 hours. Practise salt and food every hour.
+    Walk and stretch before riding home.
+  - Friday 27 November: core only, no calf exercises, no hard work.
+  - Saturday 28 November: only 20-30 minutes very easy, then sleep early.
+  - Tuesday 1 December: easy run 30 minutes only, no stair intervals.
+  - Wednesday 2 December: home session A with one set less.
+  - Thursday 3 and Friday 4 December: normal. Saturday 5 December: short,
+    before the mountain (60 minutes).
+  - Sunday 6 December: Núi Dinh 6-7 hours, kept. The most important day.
+  - Saturday 12 December: only 20-30 minutes very easy, then sleep early,
+    because the night run on Sunday 13 December starts at 3 AM.
+  - New rule in the plan: a Saturday before a Sunday that starts at 3 AM is
+    always short.
+  - Sunday 20 December: easy run 90 minutes instead of 2 hours.
+  - These changed days are locked: the morning job will not change them again.
+- Sunday 8 November (Núi Dinh, 4 hours): the page shows it marked done on
+  9 November with the feel "Nặng" (hard). There is nothing else in this diary.
+  Alpha asked Iker what happened (route, time, distance, cramps).
+- Iker asked Alpha to check the plan day by day, because 22 November
+  (mountain), 29 November (marathon) and 6 December (mountain) are three hard
+  Sundays in a row. Alpha sent the result to Iker and waits for a yes before
+  changing more days.
+
 ## 2026-11-07 (Saturday)
 
 - Plan: 90 minutes (the shorter Saturday before a mountain day).

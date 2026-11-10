@@ -95,12 +95,22 @@ Iker's rules for the plan:
   Sunday for the long run or Núi Dinh.
 - The week of 2 Nov is different (Iker, 2026-11-01): long run on Monday, rest on
   Tuesday, stairs on Wednesday, home session A on Thursday, no steady stairs.
-- Núi Dinh only by day: Sunday 8 Nov, 15 Nov and 6 Dec. The day of 1 Nov moved to
-  8 Nov (Iker, 2026-11-01).
+- Núi Dinh only by day: Sunday 8 Nov, 22 Nov and 6 Dec. The day of 1 Nov moved to
+  8 Nov (Iker, 2026-11-01). On 2026-11-10 Iker moved the mountain of 15 Nov to
+  22 Nov; 15 Nov is a long run in the city, 2 hours 30 minutes.
 - No trial sessions ("tập thử") in the future: Iker, 2026-10-26, "Tôi kg muốn thử".
   Do not add one. The two trial days of 22 and 23 October stay as history.
-  No night training on the mountain (Iker, 2026-10-22). Two long runs in the
-  park start at 03:00 with the headlamp (29 Nov, 13 Dec), like the race start.
+  No night training on the mountain (Iker, 2026-10-22).
+- Two Sundays start at 03:00, like the race start. 29 Nov: a full marathon on the
+  road, run easy, not raced (about 7:00-7:30 per km, about 5 hours), to practise
+  salt and food every hour (Iker, 2026-11-10; it replaces the night run in the
+  park). 13 Dec: a long run in the park with the headlamp. The Saturday before
+  a 03:00 start is always short: 20-30 minutes very easy, then sleep early.
+- The days around the three hard Sundays (22 Nov, 29 Nov, 6 Dec), Iker
+  2026-11-10: Friday 27 Nov core only, Tuesday 1 Dec an easy run of 30 minutes
+  (no stair intervals), Wednesday 2 Dec one set less. Sunday 20 Dec is 90
+  minutes. The days Iker changed are written locked (the list `LOCKED` in
+  `src/generate.ts`).
 - Weeks: a start week, weeks 1-3 build up, week 4 is lighter, weeks 5-7 build
   up, week 8 and the race week are lighter.
 - Meals only say how big they are (light, normal, heavy) and what they are rich
@@ -115,7 +125,7 @@ Iker's rules for the plan:
 | Thursday | Evening: steady stairs, later with a backpack |
 | Friday | Morning easy run. Evening: home session B, calves and core against the cramps, about 30 minutes. No arm training: Iker, 2026-10-26, "Bỏ hết bài tay". Do not add it back. |
 | Saturday | Evening: 1 to 2 hours on bridges and slopes |
-| Sunday | Long run in the city (twice at night in the park), or Núi Dinh by day |
+| Sunday | Long run in the city, or Núi Dinh by day, or a 03:00 start (marathon on 29 Nov, night run in the park on 13 Dec) |
 
 ## The data
 
