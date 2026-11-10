@@ -45,13 +45,25 @@ are listed here only when Alpha copies them in.
     always short.
   - Sunday 20 December: easy run 90 minutes instead of 2 hours.
   - These changed days are locked: the morning job will not change them again.
-- Sunday 8 November (Núi Dinh, 4 hours): the page shows it marked done on
-  9 November with the feel "Nặng" (hard). There is nothing else in this diary.
-  Alpha asked Iker what happened (route, time, distance, cramps).
+- Iker asked why the weekdays around the hard Sundays should be light: "I can
+  train hard". Alpha explained and asked Iker to choose. Nothing changed yet.
 - Iker asked Alpha to check the plan day by day, because 22 November
   (mountain), 29 November (marathon) and 6 December (mountain) are three hard
   Sundays in a row. Alpha sent the result to Iker and waits for a yes before
   changing more days.
+
+## 2026-11-08 (Sunday)
+
+- Plan: Núi Dinh by day, 4 hours. Marked done on the page on 9 November, with
+  the feel "Nặng" (hard). Iker told Alpha the details on 2026-11-10.
+- Part 1: 20 km, about 1,000 m of climb, 4 hours. At km 19.5 a cramp started,
+  so Iker walked the rest of that part.
+- Part 2: after the 20 km Iker went on, 17 km more with about 500 m of climb,
+  in 2 hours 30 minutes.
+- Total: about 37 km, about 1,500 m of climb, about 6 hours 30 minutes. Much
+  more than the plan (4 hours).
+- The cramp came again at about hour 4, like in the two slow races (about
+  hour 5). Salt and food every hour stays the main point of the long days.
 
 ## 2026-11-07 (Saturday)
 
