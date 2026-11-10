@@ -47,10 +47,23 @@ are listed here only when Alpha copies them in.
   - These changed days are locked: the morning job will not change them again.
 - Iker asked why the weekdays around the hard Sundays should be light: "I can
   train hard". Alpha explained and asked Iker to choose. Nothing changed yet.
+- Alpha's reasons: the body gets stronger while it rests, tired legs cramp
+  earlier, the hard Sundays are the most important training, and an injury now
+  costs more than one hard Tuesday gives. Iker asked which way is better. Alpha
+  said the lighter way, because Iker's problem is the cramp after 4 to 5 hours,
+  and the long Sundays fix that, not hard weekdays. Iker chose it ("ok B").
+  Changed and locked the same day:
+  - Tuesday 24 November: stair intervals 4 times 4 minutes (was 6 times).
+  - Thursday 26 November: steady stairs 30 minutes, no backpack (was 45 minutes
+    with 3 kg).
+  - Thursday 3 December: steady stairs 40 minutes, no backpack (was 50 minutes
+    with 3 kg).
+  - Tuesday 8 December: stair intervals 6 times 4 minutes (was 8 times).
+  - Sunday 13 December: night run 2 hours 30 minutes (was 3 hours). If Iker
+    feels very good after 6 December, it can be 3 hours again.
 - Iker asked Alpha to check the plan day by day, because 22 November
   (mountain), 29 November (marathon) and 6 December (mountain) are three hard
-  Sundays in a row. Alpha sent the result to Iker and waits for a yes before
-  changing more days.
+  Sundays in a row. Alpha found four heavy places and asked Iker first.
 
 ## 2026-11-08 (Sunday)
 

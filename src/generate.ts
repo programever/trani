@@ -198,10 +198,17 @@ function movedDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
 /**
  * The days around the three hard Sundays (mountain 22 Nov, marathon 29 Nov, mountain 6 Dec), changed by Iker on
  * 2026-11-10: Friday before the marathon is core only (no calf work), and the Tuesday after it is an easy run with no
- * stair intervals, and Wednesday has one set less.
+ * stair intervals, and Wednesday has one set less. Iker chose a bit lighter too (2026-11-10, "B"): fewer stair
+ * intervals on 24 Nov and 8 Dec, shorter steady stairs with no backpack on 26 Nov and 3 Dec, and the night run of
+ * 13 Dec 2 hours 30 minutes, because it is the fourth hard Sunday in a row.
  */
 function hardSundayDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
   switch (date) {
+    case '2026-11-24': return { date, week, type: 'weekday', am: { run: w.amMin }, pm: { kind: 'intervals', reps: 4, work: w.work } };
+    case '2026-11-26': return { date, week, type: 'weekday', am: null, pm: { kind: 'steady', min: 30, pack: 0 } };
+    case '2026-12-03': return { date, week, type: 'weekday', am: null, pm: { kind: 'steady', min: 40, pack: 0 } };
+    case '2026-12-08': return { date, week, type: 'weekday', am: { run: w.amMin }, pm: { kind: 'intervals', reps: 6, work: w.work } };
+    case '2026-12-13': return { date, week, type: 'sunday', sun: { long: 150, night: true } };
     case '2026-11-27': return { date, week, type: 'weekday', am: null,
       pm: { kind: 'homeB', sets: w.sets, legs: false, note: 'Chủ nhật chạy marathon: hôm nay chỉ core, không tập bắp chân, không tập nặng.' } };
     case '2026-12-01': return { date, week, type: 'weekday', title: 'Chạy dễ 30 phút', am: null,
@@ -217,7 +224,8 @@ function hardSundayDay(date: P.DayKey, week: string, w: Week): P.Recipe | null {
  * again. A day that is not written yet still gets lighter after a cramp the day before, on the morning it is written.
  */
 const LOCKED: ReadonlySet<P.DayKey> = new Set(['2026-11-15', '2026-11-21', '2026-11-22', '2026-11-27', '2026-11-28',
-  '2026-11-29', '2026-12-01', '2026-12-02', '2026-12-05', '2026-12-06', '2026-12-12', '2026-12-20']);
+  '2026-11-29', '2026-12-01', '2026-12-02', '2026-12-05', '2026-12-06', '2026-12-12', '2026-12-20',
+  '2026-11-24', '2026-11-26', '2026-12-03', '2026-12-08', '2026-12-13']);
 
 /** The Sunday recipe of a week starts at 03:00: a night run in the park or a marathon. */
 const earlySunday = (s: P.Sunday): boolean => 'marathon' in s || ('long' in s && !!s.night);

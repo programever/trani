@@ -156,7 +156,16 @@ test('mountain days by day, night runs in the park, the lighter weeks (Iker, 202
   assert.match(textOf(mara), /giãn cơ 5 - 10 phút trước khi đi xe máy/);
   assert.deepEqual(P.habaItems(mara), ['jog']);
   const night = dayOf('2026-12-13');
-  assert.match(night.title, /trong đêm/);
+  assert.equal(night.title, 'Chạy dài 2 tiếng 30 phút trong đêm', 'the fourth hard Sunday in a row is shorter (Iker, 2026-11-10)');
+  // lighter weekdays around the hard Sundays (Iker, 2026-11-10, "B")
+  assert.equal(dayOf('2026-11-24').title, 'Leo dốc biến tốc: 4 lần x 4 phút');
+  assert.equal(dayOf('2026-11-26').title, 'Leo cầu thang đều 30 phút');
+  assert.equal(dayOf('2026-12-03').title, 'Leo cầu thang đều 40 phút');
+  assert.equal(dayOf('2026-12-08').title, 'Leo dốc biến tốc: 6 lần x 4 phút');
+  for (const k of ['2026-11-26', '2026-12-03']) {
+    const r = R.generate(k);
+    assert.ok(r.type === 'weekday' && r.pm.kind === 'steady' && r.pm.pack === 0, `${k}: no backpack`);
+  }
   const run = night.sections[0]!.items.find(i => i.tag === 'train')!;
   assert.equal(run.time, '3:00');
   assert.match(run.text, /công viên/);

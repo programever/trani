@@ -109,7 +109,10 @@ Iker's rules for the plan:
 - The days around the three hard Sundays (22 Nov, 29 Nov, 6 Dec), Iker
   2026-11-10: Friday 27 Nov core only, Tuesday 1 Dec an easy run of 30 minutes
   (no stair intervals), Wednesday 2 Dec one set less. Sunday 20 Dec is 90
-  minutes. The days Iker changed are written locked (the list `LOCKED` in
+  minutes. Iker also chose a bit lighter (2026-11-10): stair intervals 4 x 4
+  minutes on 24 Nov and 6 x 4 minutes on 8 Dec, steady stairs with no backpack
+  (30 minutes on 26 Nov, 40 minutes on 3 Dec), and the night run of 13 Dec
+  2 hours 30 minutes. The days Iker changed are written locked (the list `LOCKED` in
   `src/generate.ts`).
 - Weeks: a start week, weeks 1-3 build up, week 4 is lighter, weeks 5-7 build
   up, week 8 and the race week are lighter.
