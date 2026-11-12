@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-18",
+  "week": "Tuần 4 · tuần nhẹ",
+  "type": "weekday",
+  "am": null,
+  "pm": {
+    "kind": "homeA",
+    "sets": 2,
+    "note": "Tuần nhẹ: mỗi bài bớt 1 hiệp."
+  }
+}

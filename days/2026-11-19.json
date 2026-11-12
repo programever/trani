@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-19",
+  "week": "Tuần 4 · tuần nhẹ",
+  "type": "weekday",
+  "am": null,
+  "pm": {
+    "kind": "steady",
+    "min": 30,
+    "pack": 2
+  }
+}
