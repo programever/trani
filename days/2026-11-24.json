@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-24",
+  "week": "Tuần 5",
+  "type": "weekday",
+  "am": {
+    "run": 40
+  },
+  "pm": {
+    "kind": "intervals",
+    "reps": 4,
+    "work": 4
+  },
+  "locked": true
+}
