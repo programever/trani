@@ -18,6 +18,20 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-18 (Wednesday)
+
+- Iker asked Alpha to get a second opinion on the plan from Gemini. Alpha sent
+  the plan and five questions. Gemini's main points: three hard Sundays in a
+  row (22 November, 29 November, 6 December) are too much; drop the marathon
+  of 29 November and go to Núi Dinh 4-5 hours instead; the night run of
+  13 December is not needed; add slow squats and slow calf raises against the
+  cramps on the way down; drink with salt from the first km and eat every 45
+  minutes; test the race food and drink on 6 December.
+- Iker thinks the plan can stay as it is. Alpha agrees: the weekdays around
+  the hard Sundays were already made lighter on 10 November. Nothing changed.
+- Rule for the marathon of 29 November: easy pace only. If a cramp or a pain
+  starts, stop or walk. Finishing it is not important.
+
 ## 2026-11-10 (Tuesday)
 
 - Today is already marked done on the page, with the feel "Dễ" (easy).
