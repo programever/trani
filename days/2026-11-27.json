@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-27",
+  "week": "Tuần 5",
+  "type": "weekday",
+  "am": null,
+  "pm": {
+    "kind": "homeB",
+    "sets": 3,
+    "legs": false,
+    "note": "Chủ nhật chạy marathon: hôm nay chỉ core, không tập bắp chân, không tập nặng."
+  },
+  "locked": true
+}
