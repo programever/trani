@@ -18,6 +18,23 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-22 (Sunday), later
+
+- Iker said the marathon of Sunday 29 November is a race (42 km on the road)
+  and asked to change this week's training to support it. Alpha made the
+  week lighter:
+  - Monday 23: rest day with core, not changed.
+  - Tuesday 24: before, a 40-minute morning run and 4 x 4 minutes of stair
+    intervals. Now one easy run of 40 minutes, with 3 x 1 km at the pace Iker
+    plans for the marathon.
+  - Wednesday 25: before, a 40-minute morning run and home session A (legs and
+    core). Now light core in the morning and an easy run of 30 minutes. No
+    heavy leg work this week.
+  - Thursday 26: before, 30 minutes of steady stair climbing. Now an easy run
+    of 30 minutes with 4 short fast parts of 20 seconds.
+  - Friday 27 (core only), Saturday 28 (20-30 minutes very easy, sleep early)
+    and Sunday 29 (the marathon, start 3 AM) were already right. Not changed.
+
 ## 2026-11-22 (Sunday)
 
 - The plan for today was Núi Dinh by day, 5 hours. At 20:00 Iker asked to

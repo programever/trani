@@ -2,11 +2,15 @@
   "date": "2026-11-25",
   "week": "Tuần 5",
   "type": "weekday",
+  "title": "Core nhẹ, chạy dễ 30 phút",
   "am": {
-    "run": 40
+    "core": 2,
+    "text": "Core nhẹ ở nhà, khoảng 10 phút."
   },
   "pm": {
-    "kind": "homeA",
-    "sets": 3
-  }
+    "kind": "run",
+    "min": 30,
+    "note": "Tuần có marathon: tuần này không tập bài chân nặng (bài A), để chân không mỏi ngày đua."
+  },
+  "locked": true
 }
