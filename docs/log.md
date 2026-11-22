@@ -18,6 +18,13 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-22 (Sunday)
+
+- The plan for today was Núi Dinh by day, 5 hours. At 20:00 Iker asked to
+  change today to a 10 km run in zone 4 (fast, hard breathing). Alpha changed
+  the day on the page. Núi Dinh is not done today. Tomorrow (Monday 23
+  November) stays a rest day.
+
 ## 2026-11-18 (Wednesday)
 
 - Iker asked Alpha to get a second opinion on the plan from Gemini. Alpha sent

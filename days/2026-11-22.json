@@ -1,9 +1,14 @@
 {
   "date": "2026-11-22",
   "week": "Tuần 4 · tuần nhẹ",
-  "type": "sunday",
-  "sun": {
-    "mountain": "5 tiếng"
+  "type": "weekday",
+  "title": "Chạy 10 km ở mức Z4",
+  "am": null,
+  "pm": {
+    "kind": "run",
+    "min": 60,
+    "text": "Chạy 10 km ở mức Z4: nhanh, thở mạnh, chỉ nói được vài từ.",
+    "note": "Iker đổi ngày hôm nay (22/11): không lên Núi Dinh, chạy 10 km Z4. Chạy dễ 10 phút để khởi động trước. Sau khi chạy, đi bộ và giãn cơ."
   },
   "locked": true
 }
