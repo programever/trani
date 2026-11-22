@@ -3,7 +3,8 @@
   "week": "Tuần 5",
   "type": "sunday",
   "sun": {
-    "marathon": 300
+    "marathon": 240,
+    "goal": 240
   },
   "locked": true
 }

@@ -122,7 +122,7 @@ export type Am = { run: number } | { core: number; text: string; note?: string }
  * Sunday: a long run in the city (night: in the park from 03:00 with the headlamp), or Núi Dinh by day, or a road
  * marathon from 03:00 run easy as training (minutes: about how long it takes; Iker, 2026-11-10).
  */
-export type Sunday = { long: number; night?: boolean } | { mountain: string } | { marathon: number };
+export type Sunday = { long: number; night?: boolean } | { mountain: string } | { marathon: number; goal?: number };
 
 /** week: the label over the title. why: one line under the title. locked: the daily job never rewrites it. */
 interface Base { date: DayKey; week: string; why?: string; locked?: boolean }
@@ -515,16 +515,34 @@ export function eveningLongDay(week: string, min: number, note: string): Day {
   };
 }
 
+/** The same road marathon, raced for a goal time (Iker, 2026-11-22: "4hour"). goal: minutes. */
+const marathonRace = (goal: number): Item => {
+  const sec = Math.round(goal * 60 / 42.195);
+  const pace = (x: number): string => `${Math.floor(x / 60)}:${String(x % 60).padStart(2, '0')}`;
+  return {
+    time: '3:00', tag: 'train',
+    text: `Chạy marathon 42 km trên đường, mục tiêu ${dur(goal)}: khoảng ${pace(sec)} phút mỗi km, đều từ đầu đến cuối.`,
+    note: 'Ăn và uống muối như ngày đua thật. Nếu chuột rút hoặc đau: chạy chậm lại hoặc đi bộ. Về đích an toàn quan trọng hơn thời gian.',
+    steps: [
+      { name: '5 km đầu', dose: `${pace(sec + 10)} phút/km`, note: 'Chậm hơn tốc độ mục tiêu một chút. Không chạy theo người khác.' },
+      // 2 seconds faster than the average, to win back the slower first 5 km.
+      { name: 'Km 5 đến km 30', dose: `${pace(sec - 2)} phút/km`, note: 'Giữ đều. Không chạy nhanh hơn khi thấy khỏe.' },
+      { name: 'Km 30 đến đích', dose: `${pace(sec - 2)} phút/km hoặc nhanh hơn`, note: 'Chỉ chạy nhanh hơn nếu chân còn khỏe và không có dấu hiệu chuột rút.' },
+      ...EAT_DRINK,
+    ],
+  };
+};
+
 function sundayDay(week: string, s: Sunday): Day {
   const isLong = !('mountain' in s);
   let morning: Item[], title: string;
   if ('marathon' in s) {
     morning = [{ time: '1:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Tối hôm trước đi ngủ lúc 19:30. Giờ có thể đổi tùy đường đi.' },
-      eat('1:15', 'Ăn sáng nhẹ: tinh bột dễ tiêu, ít dầu mỡ, món quen.'), marathon(s.marathon),
+      eat('1:15', 'Ăn sáng nhẹ: tinh bột dễ tiêu, ít dầu mỡ, món quen.'), s.goal ? marathonRace(s.goal) : marathon(s.marathon),
       { time: 'Sau chạy', tag: 'care', text: 'Đi bộ và giãn cơ 5 - 10 phút trước khi đi xe máy về.',
         note: 'Lần trước bị chuột rút khi ngồi xe máy về, chân gập lâu.' },
       recovery];
-    title = 'Marathon 42 km, chạy dễ (không đua)';
+    title = s.goal ? `Marathon 42 km, mục tiêu ${dur(s.goal)}` : 'Marathon 42 km, chạy dễ (không đua)';
   } else if ('mountain' in s) {
     morning = [{ time: '4:00', tag: 'care', text: 'Thức dậy. Uống 1 ly nước.', note: 'Giờ có thể đổi tùy đường đi. Bắt đầu chạy lúc trời vừa sáng.' },
       eat('4:15', 'Ăn sáng vừa: nhiều tinh bột, ít dầu mỡ. Ăn trên xe cũng được.', 'Ăn 1,5 - 2 tiếng trước khi bắt đầu chạy.'),

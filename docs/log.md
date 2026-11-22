@@ -18,6 +18,16 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-22 (Sunday), goal for the marathon
+
+- Iker's goal for the marathon of 29 November: 4 hours. That is about
+  5:41 minutes per km on average. Iker's best marathon so far is 4:26:21
+  (July 2026, flat road). Before, the plan said "easy pace, not a race".
+- Alpha changed the Sunday page: first 5 km at 5:51 per km, km 5 to 30 at
+  5:39 per km, from km 30 the same or faster if the legs are good. Eat and
+  drink with salt as on a race day. If a cramp or a pain starts: slow down or
+  walk. Tuesday 24 November: the 3 x 1 km are now at about 5:40 per km.
+
 ## 2026-11-22 (Sunday), later
 
 - Iker said the marathon of Sunday 29 November is a race (42 km on the road)

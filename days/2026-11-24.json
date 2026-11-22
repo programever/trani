@@ -7,7 +7,7 @@
   "pm": {
     "kind": "run",
     "min": 40,
-    "text": "Chạy dễ 40 phút. Ở giữa buổi, chạy 3 lần x 1 km ở tốc độ bạn định chạy marathon Chủ nhật. Chạy chậm 2 phút giữa các lần.",
+    "text": "Chạy dễ 40 phút. Ở giữa buổi, chạy 3 lần x 1 km ở tốc độ marathon Chủ nhật: khoảng 5:40 phút mỗi km. Chạy chậm 2 phút giữa các lần.",
     "note": "Tuần có marathon (Chủ nhật 29/11): bỏ chạy buổi sáng và bỏ leo cầu thang biến tốc, để chân khỏe cho ngày đua."
   },
   "locked": true
