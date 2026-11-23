@@ -1,0 +1,13 @@
+{
+  "date": "2026-12-01",
+  "week": "Tuần 6",
+  "type": "weekday",
+  "title": "Chạy dễ 30 phút",
+  "am": null,
+  "pm": {
+    "kind": "run",
+    "min": 30,
+    "note": "Hai ngày sau marathon: chỉ chạy dễ, không leo cầu thang biến tốc."
+  },
+  "locked": true
+}
