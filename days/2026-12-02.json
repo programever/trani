@@ -1,0 +1,14 @@
+{
+  "date": "2026-12-02",
+  "week": "Tuần 6",
+  "type": "weekday",
+  "am": {
+    "run": 40
+  },
+  "pm": {
+    "kind": "homeA",
+    "sets": 2,
+    "note": "Tuần sau marathon: mỗi bài bớt 1 hiệp."
+  },
+  "locked": true
+}
