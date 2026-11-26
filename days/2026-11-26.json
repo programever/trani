@@ -2,13 +2,12 @@
   "date": "2026-11-26",
   "week": "Tuần 5",
   "type": "weekday",
-  "title": "Chạy dễ 30 phút và 4 lần chạy nhanh",
   "am": null,
   "pm": {
-    "kind": "run",
-    "min": 30,
-    "text": "Chạy dễ 30 phút. Cuối buổi chạy nhanh 4 lần, mỗi lần 20 giây.",
-    "note": "Đi bộ 1 phút giữa các lần chạy nhanh. Không mệt là đúng. Không leo cầu thang tuần này."
+    "kind": "homeB",
+    "sets": 3,
+    "legs": false,
+    "note": "Chủ nhật chạy marathon: hôm nay chỉ core, không tập bắp chân, không tập nặng."
   },
   "locked": true
 }
