@@ -18,6 +18,13 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-26 (Thursday)
+
+- It rains today, so Iker cannot run. Iker asked to swap today and tomorrow.
+  Thursday 26 is now core only (no legs, no heavy work). Friday 27 is now the
+  easy run of 30 minutes with 4 short fast parts of 20 seconds. Saturday 28
+  and the marathon on Sunday 29 are not changed.
+
 ## 2026-11-22 (Sunday), goal for the marathon
 
 - Iker's goal for the marathon of 29 November: 4 hours. That is about
