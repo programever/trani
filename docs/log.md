@@ -18,6 +18,15 @@ are listed here only when Alpha copies them in.
 
 ---
 
+## 2026-11-27 (Friday)
+
+- It rains again today. The easy run of 30 minutes (moved here from Thursday)
+  cannot be done outside. Iker asked if core training is a good idea instead.
+  Alpha said: no hard core today, core was already done on Thursday. Rest, or
+  15-20 minutes of easy stretching. If the rain stops, a slow run of 20-30
+  minutes is still fine. Saturday 28 and the marathon on Sunday 29 are not
+  changed.
+
 ## 2026-11-26 (Thursday)
 
 - It rains today, so Iker cannot run. Iker asked to swap today and tomorrow.
