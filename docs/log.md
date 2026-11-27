@@ -26,6 +26,8 @@ are listed here only when Alpha copies them in.
   15-20 minutes of easy stretching. If the rain stops, a slow run of 20-30
   minutes is still fine. Saturday 28 and the marathon on Sunday 29 are not
   changed.
+- Later Iker asked to make today a rest day. Alpha changed the page: today
+  is a rest day with no training, only easy stretching if Iker wants it.
 
 ## 2026-11-26 (Thursday)
 

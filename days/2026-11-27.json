@@ -1,14 +1,26 @@
 {
   "date": "2026-11-27",
   "week": "Tuần 5",
-  "type": "weekday",
-  "title": "Chạy dễ 30 phút và 4 lần chạy nhanh",
-  "am": null,
-  "pm": {
-    "kind": "run",
-    "min": 30,
-    "text": "Chạy dễ 30 phút. Cuối buổi chạy nhanh 4 lần, mỗi lần 20 giây.",
-    "note": "Đi bộ 1 phút giữa các lần chạy nhanh. Không mệt là đúng. Không leo cầu thang tuần này."
+  "type": "custom",
+  "day": {
+    "kind": "rest",
+    "title": "Nghỉ. Trời mưa, giữ sức cho marathon Chủ nhật.",
+    "week": "Tuần 5",
+    "sections": [
+      { "name": "Sáng", "items": [
+        { "time": "6:30", "tag": "care", "text": "Thức dậy. Uống 1 ly nước." },
+        { "time": "7:30", "tag": "eat", "text": "Ăn sáng vừa: tinh bột và đạm." }
+      ] },
+      { "name": "Trưa", "items": [
+        { "time": "12:00", "tag": "eat", "text": "Ăn trưa vừa: cơm hoặc bún, có đạm và rau." },
+        { "time": "16:00", "tag": "eat", "text": "Ăn nhẹ, nếu đói." }
+      ] },
+      { "name": "Tối", "items": [
+        { "time": "18:00", "tag": "care", "text": "Nếu muốn: giãn cơ nhẹ 15 - 20 phút (hông, bắp chân). Không tập core, không tập nặng." },
+        { "time": "19:00", "tag": "eat", "text": "Ăn tối vừa: cơm hoặc bún, ít dầu mỡ." },
+        { "time": "22:00", "tag": "care", "text": "Đi ngủ. Ngủ đủ 7 - 8 tiếng." }
+      ] }
+    ]
   },
   "locked": true
 }
